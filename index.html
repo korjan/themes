@@ -89,7 +89,7 @@
             for (var i = 0; i < faces.length; ++i) {
               log('BAM Face<br/>');
               $(this).highlight(faces[i], "red");
-              document.getElementById('audioyo').play();
+              //document.getElementById('audioyo').play();
               console.log('face:', i,  faces[i]);
             }
           });
@@ -97,7 +97,8 @@
       } else {
         //probeer totdat je toegang tot de camera hebt.
         var interval = setTimeout(function(){
-          snapshot();
+          console.log('already access?');
+          // snapshot();
         }, 1000);
       }
     }
@@ -152,6 +153,7 @@
   <script>
       $(document).ready(function() {
           $.material.init();
+          startRecognizing();
       });
   </script>
   <script>
@@ -180,7 +182,7 @@
       // Your JavaScript code for the application
       var api = new FacePP('020926d7d1cc5067ea7a219782298e09',
                'eGLjJoOHByu_zm8uD0Z09IZAqa71A-m7',
-               { apiURL: 'http://apius.faceplusplus.com/v2' });
+               { apiURL: 'https://apius.faceplusplus.com/v2' });
 
       // method = 'detection/detect';
       method = '/recognition/identify';
@@ -196,10 +198,13 @@
 
         // identify returns result.candidate[];
         // person_name == ""
-        // TODO: check that Ted is the actual match.
-        var audio = new Audio();
-        audio.src = '/public/ted.mp3';
-        audio.play();
+        //TODO: check that Ted is the actual match.
+        var candidate = result.face[0].candidate[0];
+        if (candidate.person_name == 'Ted' && candidate.confidence > 20){
+          var audio = new Audio();
+          audio.src = '/public/ted.mp3';
+          audio.play();
+        }
 
       }
       api.request(method, data, cb);
