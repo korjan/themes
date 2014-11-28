@@ -4,6 +4,9 @@
 	var ctx = canvas.getContext('2d');
 	var $face = $('#face');
 	var localMediaStream = null;
+	var _tim = window.tim;
+
+	_tim.playedSessions = [];
 
 	// check for getUserMedia support
 		navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;
@@ -125,10 +128,26 @@
 	}
 
 	function playSoundForPerson(name) {
-		var hit = window.tim.persons[name];
-		if (hit) {
-			window.tim.play(hit);
+		var now = new Date();
+		if(_tim.playedSessions[name]) {
+
+			var playedSince = _tim.playedSessions[name].time.getTime();
+			playedSince += 1000 * 60 * 10;
+			if( playedSince > now.getTime() ) {
+				console.log('has been played!');
+				// Person's theme has neem played recently.
+				return;
+			}
 		}
+		recordSession(name);
+		_tim.play('/public/' + name.toLowerCase() + '.mp3');
+	}
+
+	function recordSession( name ) {
+		_tim.playedSessions[name] = {
+			name: name,
+			time: new Date()
+		};
 	}
 
 
