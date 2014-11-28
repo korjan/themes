@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>The Internet of Tim</title>
+</head>
+<body>
+
+  <script>
+    (function() {
+      window.tim = {
+        speech: {
+          recognition: null,
+          start: null,
+          lastPlayed: null,
+        },
+        face: {
+          playedSessions: {}
+        },
+        isPlaying: false,
+
+        // Play an audio file.
+        play: function(url) {
+          if (!url || window.tim.isPlaying) {
+            return;
+          }
+
+          window.tim.isPlaying = true;
+          window.tim.lastPlayed = url;
+          var audio = new Audio();
+          audio.src = url;
+          audio.onerror = function(event) {
+            console.warn('Audio error', event);
+            window.tim.isPlaying = false;
+          };
+          audio.onended = function() {
+            window.tim.isPlaying = false;
+          };
+          audio.play();
+        },
+
+        // Word triggers.
+        words: {
+          wrappen: '/public/nigga.m4a',
+          rappen: '/public/nigga.m4a',
+          wrap: '/public/nigga.m4a',
+          rap: '/public/nigga.m4a',
+          sexy: '/public/sexy.m4a',
+          lekker: '/public/lekker.m4a',
+          werk: '/public/mongol.mp3',
+          raar: '/public/raar.mp3',
+          gek: '/public/gek.m4a',
+          goor: '/public/goor.m4a',
+          schnitzel: '/public/schnitzel.m4a',
+          schnitzels: '/public/schnitzel.m4a',
+          snietsel: '/public/schnitzel.m4a',
+          sneasel: '/public/schnitzel.m4a',
+          smurfen: '/public/smurfen.mp3',
+          smurf: '/public/smurfen.mp3',
+          ballonnen: '/public/ballon.mp3',
+          ballon: '/public/ballon.mp3',
+          moeder: '/public/moeder.mp3',
+          iphone: '/public/connected.mp3',
+          blackberry: '/public/connected.mp3',
+          bootcamp: '/public/connected.mp3',
+        },
+        persons: {
+          ted: '/public/ted.mp3',
+          guus: '/public/guus.mp3',
+        }
+      };
+    }());
+  </script>
+
+  <video autoplay></video>
+  <img src="" id="face"/>
+  <canvas style="display:none;"></canvas>
+
+  <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+
+  <script src="js/face_recognition/objectdetect.js"></script>
+  <script src="js/face_recognition/objectdetect.eye.js"></script>
+  <script src="js/face_recognition/objectdetect.frontalface.js"></script>
+  <script src="js/face_recognition/jquery.objectdetect.js"></script>
+
+
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.1.6/js/ripples.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.1.6/js/material.min.js"></script>
+  <script type="text/javascript" src="js/facepp-sdk.min.js"></script>
+
+
+  <script src="/js/hallo.js"></script>
+  <script src="/js/face_recognition/face_recognition.js"></script>
+
+</body>
