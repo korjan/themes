@@ -7,11 +7,35 @@
 
   <script>
     (function() {
-      window.tim = window.tim || {
-        recognition: null,
+      window.tim = {
+        speech: {
+          recognition: null,
+          start: null,
+        },
         isPlaying: false,
         lastPlayed: null,
-        start: null,
+
+        // Play an audio file.
+        play: function(url) {
+          if (!url || this.isPlaying || this.lastPlayed == url) {
+            return;
+          }
+
+          console.info('Play', url);
+          this.isPlaying = true;
+          this.lastPlayed = url;
+          var audio = new Audio();
+          audio.src = url;
+          audio.onerror = function(event) {
+            console.warn('Audio error', event);
+          };
+          audio.onended = function() {
+            this.isPlaying = false;
+          };
+          audio.play();
+        },
+
+        // Word triggers.
         words: {
           wrappen: '/public/nigga.m4a',
           rappen: '/public/nigga.m4a',

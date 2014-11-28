@@ -1,6 +1,7 @@
 (function() {
 
-window.tim.start = _start;
+var _tim = window.tim;
+_tim.speech.start = _start;
 _start();
 
 /*
@@ -8,7 +9,7 @@ _start();
  */
 function _start() {
   var recognition = new webkitSpeechRecognition();
-  window.tim.recognition = recognition;
+  _tim.recognition = recognition;
 
   recognition.continuous = true;
   recognition.interimResults = true;
@@ -16,50 +17,37 @@ function _start() {
 
   recognition.start();
 
-  recognition.onstart = function(event) {
-    console.log('onstart', event);
+  recognition.onstart = function() {
+    console.info('Tim is listening...');
   };
 
   recognition.onresult = function(event) {
     var results = event.results;
     var i = event.resultIndex;
     var result = results[i];
-    console.info('Result - Final: %s, Confidence: %s, Word: %s, Length: %s', result.isFinal, result[0].confidence, result[0].transcript, result.length);
     var text = result[0].transcript;
     var words = text.split(' ');
     var lastWords = words.slice(words.length - 3, words.length);
-    console.log(lastWords);
+    console.info('Last 3 words:', lastWords);
 
     lastWords.forEach(function(word) {
-      var hit = window.tim.words[word];
-
-      if (hit && !window.tim.isPlaying && window.tim.lastPlayed != hit) {
-        console.log('Play', hit);
-        window.tim.isPlaying = true;
-        window.tim.lastPlayed = hit;
-        var audio = new Audio();
-        audio.src = hit;
-        audio.onerror = function() {
-          console.warn('err', arguments);
-        };
-        audio.onended = function() {
-          window.tim.isPlaying = false;
-        };
-        audio.play();
+      var hit = _tim.words[word];
+      if (hit) {
+        _tim.play(hit);
       }
     });
   };
 
   recognition.onerror = function(event) {
-    console.warn('onerror', event);
+    console.warn('Tim encountered a error while listening.', event);
     // Back of!
     setTimeout(function() {
-      window.tim.start();
+      _start();
     }, 1000);
   };
 
-  recognition.onend = function(event) {
-    console.log('onend', event);
+  recognition.onend = function() {
+    console.log('Tim is not listening anymore');
   };
 }
 
