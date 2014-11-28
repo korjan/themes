@@ -1,32 +1,40 @@
+var _ = require('underscore');
 
-// { name: TIMIO-FACE-TED, when : 34546456234}
+// { type: WORD|FACE, value "Ted"}
+
+// var rules = HTTP.GET rules from server
+
 exports.fire = function(ev){
-	// store(event);
-	events.push({ev: ev, on : new Date());
 
-	if (events.length > 10) {
-		events.shift();
-	}
+	// events.push(ev);
 
-	evaluate(events); 
-}
+	// if (events.length > 10) {
+	// 	events.shift();
+	// }
 
-exports.evaluate = function(evs){
-	var rules = db.collection('rules').find();
-	console.log('rules: ', rules);
+	// evaluate(events); 
 
-	_.each(rules, function(rule){
-		// events.contains(rule.name);
-		_.filter(events, function(ev){return ev.name == rule})
-		if (rule.name == evs.name){
-			if (rule.when = )
+	// rule : {type: WORD|FACE, value: "Ted", triggers : [{ type : AUDIO|VIDEO, value : "http://metjehoofd.heroku.com/sounds/ted.mp3"}]}
+
+	// {rules: [{word: 'ted'}], triggers: [{audio: 'ted.mp3'}, {'video': 'ytubeb.com/fasdf'}]
+
+	_.each(rules, function (rule){
+		if (ev.word && ev.word == rule.word){
+			_.each(rule.triggers, function(trigger){
+				if (trigger.audio){
+					playAudio(trigger.audio);
+				} else if (trigger.video){
+					playVideo(trigger.video);
+				}
+			});
 		}
 	});
 }
 
-// rule: {triggeredBy: [{name: TIMIO-FACE-TED, when : 1000}, {name:'schnitzel'}], events: [{eventname}, themes : [{audio : key}]]
-exports.addRule = function(rule){
-	db.collection('rules').insert(rule, function(err, result){
-        console.log(err, result);
-   });
+exports.playAudio = function(audio){
+	console.log('playing audio:', audio);
+}
+
+exports.playVideo = function(video){
+	console.log('playing video:', video);
 }

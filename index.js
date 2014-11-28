@@ -29,3 +29,5 @@ io.on('connection', function (socket) {
     console.log(data);
   });
 });
+
+// var rules = db.collection('rules').find();
