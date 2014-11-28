@@ -21,7 +21,7 @@
 
 		formdata = {};
 		person_name = $('#person-name-field').val();
-		formdata['person_name'] = person_name;
+		formdata['person_name'] = person_name.toLowerCase();
 		formdata['group_name'] = groupName;
 		getBlobFromFile($('#img-field')[0].files[0], function( image ) {
 			formdata['img'] = image;
@@ -29,7 +29,10 @@
 			// Create all the things!
 			createPerson().done(function() {
 				createFace(formdata).done(function(faceData) {
-					addFaceToPerson(faceData).done(trainGroup);
+					addFaceToPerson(faceData).done(function() {
+						trainGroup();
+						alert('Foto toegevoegd!');
+					});
 				});
 			});
 
