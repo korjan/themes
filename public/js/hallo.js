@@ -8,8 +8,7 @@ _start();
  * Initialise, start and save the webkitSpeechRecognition.
  */
 function _start() {
-  var recognition = new webkitSpeechRecognition();
-  _tim.recognition = recognition;
+  var recognition = _tim.speech.recognition = new webkitSpeechRecognition();
 
   recognition.continuous = true;
   recognition.interimResults = true;
@@ -17,39 +16,44 @@ function _start() {
 
   recognition.start();
 
-  recognition.onstart = function() {
-    console.info('Tim is listening...');
-  };
+  recognition.onstart = _onstart;
+  recognition.onresult = _onresult;
+  recognition.onerror = _onerror;
+  recognition.onend = _onend;
+}
 
-  recognition.onresult = function(event) {
-    var results = event.results;
-    var i = event.resultIndex;
-    var result = results[i];
-    var text = result[0].transcript;
-    var words = text.split(' ');
-    var lastWords = words.slice(words.length - 3, words.length);
-    console.info('Last 3 words:', lastWords);
+function _onstart() {
+  console.info('Tim is listening...');
+}
 
-    lastWords.forEach(function(word) {
-      var hit = _tim.words[word];
-      if (hit && _tim.speech.lastPlayed != hit) {
-        _tim.speech.lastPlayed = hit;
-        _tim.play(hit);
-      }
-    });
-  };
+function _onresult(event) {
+  var results = event.results;
+  var i = event.resultIndex;
+  var result = results[i];
+  var text = result[0].transcript;
+  var words = text.split(' ');
+  var lastWords = words.slice(words.length - 3, words.length);
+  console.info('Last 3 words:', lastWords);
 
-  recognition.onerror = function(event) {
-    console.warn('Tim encountered a error while listening.', event);
-    // Back of!
-    setTimeout(function() {
-      _start();
-    }, 1000);
-  };
+  lastWords.forEach(function(word) {
+    var hit = _tim.words[word];
+    if (hit && _tim.speech.lastPlayed != hit) {
+      _tim.speech.lastPlayed = hit;
+      _tim.play(hit);
+    }
+  });
+}
 
-  recognition.onend = function() {
-    console.log('Tim is not listening anymore');
-  };
+function _onerror(event) {
+  console.warn('Tim encountered a error while listening.', event);
+  // Back of!
+  setTimeout(function() {
+    _start();
+  }, 1000);
+}
+
+function _onend() {
+  console.log('Tim is not listening anymore');
 }
 
 }());
