@@ -4,7 +4,7 @@
   "description": "Themes ====== When recognizing specific spoken words / faces / text, play a theme song or video, with a little randomness.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
