@@ -17,20 +17,20 @@
 
         // Play an audio file.
         play: function(url) {
-          if (!url || this.isPlaying || this.lastPlayed == url) {
+          if (!url || window.tim.isPlaying || window.tim.lastPlayed == url) {
             return;
           }
 
-          console.info('Play', url);
-          this.isPlaying = true;
-          this.lastPlayed = url;
+          window.tim.isPlaying = true;
+          window.tim.lastPlayed = url;
           var audio = new Audio();
           audio.src = url;
           audio.onerror = function(event) {
             console.warn('Audio error', event);
+            window.tim.isPlaying = false;
           };
           audio.onended = function() {
-            this.isPlaying = false;
+            window.tim.isPlaying = false;
           };
           audio.play();
         },

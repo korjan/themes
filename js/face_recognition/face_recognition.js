@@ -113,7 +113,7 @@
 				snapshot();
 				return;
 			}
-			
+
 			var candidate = result.face[0].candidate[0];
 
 			if (candidate.confidence > 20){
@@ -125,10 +125,7 @@
 	}
 
 	function playSoundForPerson(name) {
-		var audio = new Audio();
-		console.log('playing: ', '/public/' + name.toLowerCase() + '.mp3');
-		audio.src = '/public/' + name.toLowerCase() + '.mp3';
-		audio.play();
+		tim.play('/public/' + name.toLowerCase() + '.mp3');
 	}
 
 
