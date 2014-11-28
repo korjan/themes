@@ -1,0 +1,26 @@
+doctype html
+html
+	head
+		link(href='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css', rel='stylesheet')
+		link(href='//cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.1.6/css/ripples.min.css', rel='stylesheet')
+		link(href='//cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.1.6/css/material-wfont.min.css', rel='stylesheet')
+	body
+		.navbar.navbar-default.navbar-material-lime
+			.navbar-header
+				.navbar-brand TIM.io
+		.container
+			h1 Add event!
+			if done
+				h2 DONE!
+			form(action='/event', method="POST", enctype="multipart/form-data")
+				label
+					span Woord:
+					input(type='text', name='word')
+				label
+					span Audio:
+					input(type='file', name='audio')
+				div
+					button(type='submit') Toevoegen
+		script(src='//code.jquery.com/jquery-1.10.2.min.js')
+		script(type='text/javascript', src='js/facepp-sdk.min.js')
+		script(src='js/add_person/add_person.js')
