@@ -132,7 +132,8 @@
 			}
 		}
 		recordSession(name);
-		_tim.play('/public/' + name.toLowerCase() + '.mp3');
+		var url = _tim.persons[name];
+		_tim.play(url);
 	}
 
 	function recordSession( name ) {
