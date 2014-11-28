@@ -8,7 +8,18 @@
   <script>
     (function() {
       window.tim = window.tim || {
-        recognition: null
+        recognition: null,
+        isPlaying: false,
+        lastPlayed: null,
+        words: {
+          zwart: '/public/nigga.m4a',
+          zwarte: '/public/nigga.m4a',
+          sexy: '/public/sexy.m4a',
+          lekker: '/public/lekker.m4a',
+          werk: '/public/mongol.mp3',
+          raar: '/public/raar.mp3',
+          gek: '/public/gek.m4a',
+        }
       };
     }());
   </script>
@@ -27,28 +38,41 @@
       recognition.onstart = function(event) {
         console.log('onstart', event);
       };
+
       recognition.onresult = function(event) {
         var results = event.results;
         var i = event.resultIndex;
         var result = results[i];
         console.info('Result - Final: %s, Confidence: %s, Word: %s, Length: %s', result.isFinal, result[0].confidence, result[0].transcript, result.length);
-        if (result[0].confidence > 0.8) {
-          var text = result[0].transcript;
-          var words = text.split(' ');
-          var lastWords = words.slice(words.length - 3, words.length);
-          console.log(lastWords);
-          if (lastWords.indexOf('herlaad') >= 0) {
-            window.location.reload();
-          } else if (lastWords.indexOf('moeder') >= 0) {
-            console.log('Ik hoorde je moeder!');
-          } else if (lastWords.indexOf('koffie') >= 0) {
-            console.log('Ik hoorde koffie!');
+        var text = result[0].transcript;
+        var words = text.split(' ');
+        var lastWords = words.slice(words.length - 3, words.length);
+        console.log(lastWords);
+
+        lastWords.forEach(function(word) {
+          var hit = window.tim.words[word];
+
+          if (hit && !window.tim.isPlaying && window.tim.lastPlayed != hit) {
+            console.log('Play', hit);
+            window.tim.isPlaying = true;
+            window.tim.lastPlayed = hit;
+            var audio = new Audio();
+            audio.src = hit;
+            audio.onerror = function() {
+              console.warn('err', arguments);
+            };
+            audio.onended = function() {
+              window.tim.isPlaying = false;
+            };
+            audio.play();
           }
-        }
+        });
       };
+
       recognition.onerror = function(event) {
         console.warn('onerror', event);
       };
+
       recognition.onend = function(event) {
         console.log('onend', event);
       };
