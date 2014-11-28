@@ -7,6 +7,7 @@
 		createFaceCall = '/detection/detect',
 		createPersonCall = '/person/create',
 		trainGroupCall = '/train/identify',
+		addImageToPersonCall = '/person/add_face',
 		person_name,
 		faceId,
 		fileReader = new FileReader(),
@@ -24,10 +25,19 @@
 		formdata['group_name'] = groupName;
 		getBlobFromFile($('#img-field')[0].files[0], function( image ) {
 			formdata['img'] = image;
-			createFace( formdata );
+
+			// Create all the things!
+			createPerson().done(function() {
+				createFace(formdata).done(function(faceData) {
+					addFaceToPerson(faceData).done(trainGroup);
+				});
+			});
+			
 		});
 		return false;
 	});
+
+
 
 
 	function getBlobFromFile(file, callback) {
@@ -37,11 +47,6 @@
 			callback(new Blob([new Uint8Array(content)]));
 		}
 		fileReader.readAsArrayBuffer(file);
-
-/*		var dataView = new Uint8Array(file);
-		console.log(dataView);
-		var dataBlob = new Blob([dataView]);//new Blob
-		return dataBlob;*/
 	}
 
 
@@ -52,38 +57,39 @@
 			face_id: faceId,
 			faceset_name: 'faceset_' + person_name
 		};
-		faceApi.request(createFaceSetCall, data, function(err, data) {
-			createPerson(data);
-		});
+		return performRequest(createFaceSetCall, data);
 	}
 
 	function createPerson(faceSetData) {
-		console.log(faceSetData);
-		formdata['face_id'] = faceId;
+		return performRequest(createPersonCall, formdata, true);
+	}
 
-		faceApi.request(createPersonCall, formdata, function() {
-			trainGroup();
-		});
-		
-		
-		// Create faceset
-		// Create faces with faceset-id
-		// Create person with face-ids
+	function addFaceToPerson(faceData) {
+		formdata['face_id'] = faceData.face[0]['face_id'];
+		return performRequest(addImageToPersonCall, formdata);
 	}
 
 	function createFace(formdata) {
-		console.log('creating face.');
-		faceApi.request(createFaceCall, formdata, function(err, data) {
-			createFaceSet(data);
-		});
+		return performRequest(createFaceCall, formdata);
 	}
 
 
 	function trainGroup() {
-		faceApi.request(trainGroupCall, {group_name: groupName}, function() {
-			alert('persoon toegevoegd');
-		});
+		return performRequest(trainGroupCall, {group_name: groupName});
 	}
 
+
+	function performRequest(requestName, data, mayFail) {
+		var dfd = new jQuery.Deferred();
+		faceApi.request(requestName, data, function( err, data ) {
+			if( err && !mayFail ) {
+				dfd.reject( err );
+				return;
+			}
+
+			dfd.resolve( data );
+		});
+		return dfd.promise();
+	}
 
 })();
