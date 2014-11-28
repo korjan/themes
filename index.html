@@ -120,4 +120,20 @@
     }).appendTo("body");
   };
   </script>
+  <script type="text/javascript" src="facepp-sdk.min.js"></script>
+   <script type="text/javascript">
+            // Your JavaScript code for the application
+            var api = new FacePP('020926d7d1cc5067ea7a219782298e09',
+                     'eGLjJoOHByu_zm8uD0Z09IZAqa71A-m7',
+                     { apiURL: 'http://apius.faceplusplus.com/v2' });
+
+            method = 'detection/detect';
+            data  = { url : 'https://www.dropbox.com/s/p40hmqlrsx89ri3/nerd.jpg?dl=0' };
+            cb = function(error, result) {
+              console.log(error, result);
+            }
+            session = api.requestAsync(method, data, cb);
+            console.log('session', session);
+        
+        </script>
 </body>
