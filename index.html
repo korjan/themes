@@ -59,7 +59,7 @@
 
         //append img in container div
         document.getElementById('face').setAttribute('src', dataURL);
-        var blob = dataURItoBlob(dataURL); 
+        var blob = dataURItoBlob(dataURL);
         console.log('blob', blob);
     }
 
@@ -74,10 +74,10 @@
 
          timeout = setTimeout(function(){
           console.log('detecting in image');
-          
+
           $("#face").objectdetect("all", {classifier: objectdetect.frontalface}, function(faces) {
             console.log('faces', faces);
-            
+
             log('detected locally:' + new Date() + '<br/>');
 
             if (faces.length > 0 ){
@@ -98,7 +98,7 @@
         //probeer totdat je toegang tot de camera hebt.
         var interval = setTimeout(function(){
           snapshot();
-        }, 1000); 
+        }, 1000);
       }
     }
 
@@ -109,22 +109,22 @@
       console.log('snapshot');
       snapshot();
     }
-   
+
     function videoError(e) {
       // no webcam found - do something
       console.log('cam error', e);
     }
     // check for getUserMedia support
     navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;
-   
-    if (navigator.getUserMedia) {       
+
+    if (navigator.getUserMedia) {
       // get webcam feed if available
       console.log('get user media');
       navigator.getUserMedia({video: true}, handleVideo, videoError);
     } else {
       console.log('darn');
     }
-    
+
   }
 
 </script>
@@ -133,9 +133,9 @@
     //watch webcam
     //
     function log(txt){
-      $('#log').append(txt);  
+      $('#log').append(txt);
     }
-    
+
     $('.btn').click(function(){
       log('OYOOO<br/>');
       startRecognizing();
@@ -145,7 +145,7 @@
   <script src="js/objectdetect.eye.js"></script>
   <script src="js/objectdetect.frontalface.js"></script>
   <script src="js/jquery.objectdetect.js"></script>
-  
+
   <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.1.6/js/ripples.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.1.6/js/material.min.js"></script>
@@ -173,7 +173,7 @@
     function detectFace(){
 
       var dataURL = document.querySelector('canvas').toDataURL('image/jpeg', 0.5);
-      var blob = dataURItoBlob(dataURL); 
+      var blob = dataURItoBlob(dataURL);
       // var fd = new FormData(document.forms[0]);
       // fd.append("canvasImage", blob);
 
@@ -189,18 +189,20 @@
       data = {img : blob, group_name : 'testgroep'};
       cb = function(error, result) {
         console.log('face++ callback:', error, result);
-        
+
         log('recognized remotely:' + new Date() + '<br/>');
 
-        //detect returns result.face[0].face_id; 
+        //detect returns result.face[0].face_id;
 
         // identify returns result.candidate[];
         // person_name == ""
-        document.getElementById('audioyo').play();
+        var audio = new Audio();
+        audio.src = '/public/ted.mp3';
+        audio.play();
 
       }
       api.request(method, data, cb);
       // console.log('session', session);
-    }    
+    }
     </script>
 </body>
