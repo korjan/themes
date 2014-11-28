@@ -49,6 +49,8 @@
     var ctx = canvas.getContext('2d');
     var localMediaStream = null;
 
+    log('starting :' + new Date() + '<br/>');
+
     function generateThumbnail(i) {
         //generate thumbnail URL data
         var context = canvas.getContext('2d');
@@ -75,34 +77,37 @@
           
           $("#face").objectdetect("all", {classifier: objectdetect.frontalface}, function(faces) {
             console.log('faces', faces);
-            console.log('interval', interval);
-            console.log('timeout', timeout);
+            
+            log('detected locally:' + new Date() + '<br/>');
 
             if (faces.length > 0 ){
               detectFace();
-              window.clearTimeout(interval);
-              window.clearTimeout(timeout);
+              // window.clearTimeout(timeout);
+            } else {
+              snapshot();
             }
             for (var i = 0; i < faces.length; ++i) {
               log('BAM Face<br/>');
               $(this).highlight(faces[i], "red");
               document.getElementById('audioyo').play();
-              console.log('face:', faces[i]);
+              console.log('face:', i,  faces[i]);
             }
           });
         }, 2000);
-        
+      } else {
+        //probeer totdat je toegang tot de camera hebt.
+        var interval = setTimeout(function(){
+          snapshot();
+        }, 1000); 
       }
     }
-
-    var interval = setInterval(function(){
-      snapshot();
-    }, 1000);
 
     function handleVideo(stream) {
       // if found attach feed to video element
       video.src = window.URL.createObjectURL(stream);
       localMediaStream = stream;
+      console.log('snapshot');
+      snapshot();
     }
    
     function videoError(e) {
@@ -119,6 +124,7 @@
     } else {
       console.log('darn');
     }
+    
   }
 
 </script>
@@ -176,14 +182,15 @@
                'eGLjJoOHByu_zm8uD0Z09IZAqa71A-m7',
                { apiURL: 'http://apius.faceplusplus.com/v2' });
 
-      method = 'detection/detect';
-      // method = '/recognition/identify';
+      // method = 'detection/detect';
+      method = '/recognition/identify';
       // data  = { url : 'https://photos-5.dropbox.com/t/1/AACwX0zc_YOojWG97fHdUvmhX-OBtgL4ze-HFFBoEvFEqA/12/1613825/jpeg/1024x768/3/1417176000/0/2/nerd.jpg/jrDpSQ_yFr8zAL5g4uW75EU1NAqPC2w7XD1PXGwPexg' };
 
-      data = {img : blob};
+      data = {img : blob, group_name : 'testgroep'};
       cb = function(error, result) {
-        console.log('callback:', error, result);
-        console.log('face:', result);
+        console.log('face++ callback:', error, result);
+        
+        log('recognized remotely:' + new Date() + '<br/>');
 
         //detect returns result.face[0].face_id; 
 
@@ -191,10 +198,9 @@
         // person_name == ""
         document.getElementById('audioyo').play();
 
-
       }
-      session = api.requestAsync(method, data, cb);
-      console.log('session', session);
+      api.request(method, data, cb);
+      // console.log('session', session);
     }    
     </script>
 </body>
