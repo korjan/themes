@@ -2,7 +2,7 @@
 	var groupName = 'testgroep',
 		faceApi = new FacePP('020926d7d1cc5067ea7a219782298e09',
 			'eGLjJoOHByu_zm8uD0Z09IZAqa71A-m7',
-			{ apiURL: 'http://apius.faceplusplus.com/v2' }),
+			{ apiURL: 'https://apius.faceplusplus.com/v2' }),
 		createFaceSetCall = '/faceset/create',
 		createFaceCall = '/detection/detect',
 		createPersonCall = '/person/create',
@@ -32,7 +32,7 @@
 					addFaceToPerson(faceData).done(trainGroup);
 				});
 			});
-			
+
 		});
 		return false;
 	});
