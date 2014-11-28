@@ -125,7 +125,10 @@
 	}
 
 	function playSoundForPerson(name) {
-		tim.play('/public/' + name.toLowerCase() + '.mp3');
+		var hit = window.tim.persons[name];
+		if (hit) {
+			window.tim.play(hit);
+		}
 	}
 
 

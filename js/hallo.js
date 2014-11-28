@@ -32,7 +32,8 @@ function _start() {
 
     lastWords.forEach(function(word) {
       var hit = _tim.words[word];
-      if (hit) {
+      if (hit && _tim.speech.lastPlayed != hit) {
+        _tim.speech.lastPlayed = hit;
         _tim.play(hit);
       }
     });

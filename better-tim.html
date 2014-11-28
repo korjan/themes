@@ -11,13 +11,13 @@
         speech: {
           recognition: null,
           start: null,
+          lastPlayed: null,
         },
         isPlaying: false,
-        lastPlayed: null,
 
         // Play an audio file.
         play: function(url) {
-          if (!url || window.tim.isPlaying || window.tim.lastPlayed == url) {
+          if (!url || window.tim.isPlaying) {
             return;
           }
 
@@ -51,6 +51,9 @@
           schnitzels: '/public/schnitzel.m4a',
           snietsel: '/public/schnitzel.m4a',
           sneasel: '/public/schnitzel.m4a',
+        },
+        persons: {
+          ted: '/public/ted.mp3'
         }
       };
     }());
