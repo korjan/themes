@@ -1,6 +1,8 @@
 var app = require('express')();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
+var express = require('express');
+
 
 var _ = require('underscore');
 
@@ -17,10 +19,15 @@ var db = MongoClient.connect(MONGOHQ_URL, function(err, db) {
   console.log('oyooo');
 });
 
+var path = require('path');
+app.use(express.static(path.join(__dirname, 'public')));
+app.set('views', './views');
+app.set('view engine', 'jade');
+
 server.listen(8080);
 
 app.get('/', function (req, res) {
-  res.sendfile(__dirname + '/index.html');
+  res.render('index', {title: 'hallo'});
 });
 
 io.on('connection', function (socket) {
