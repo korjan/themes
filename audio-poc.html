@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Audio PoC</title>
+</head>
+<body>
+
+  <script>
+    (function() {
+      window.tim = window.tim || {
+        recognition: null
+      };
+    }());
+  </script>
+
+  <script>
+    (function() {
+      var recognition = new webkitSpeechRecognition();
+      window.tim.recognition = recognition;
+
+      recognition.continuous = true;
+      recognition.interimResults = true;
+      recognition.lang = 'nl-NL';
+
+      recognition.start();
+
+      recognition.onstart = function(event) {
+        console.log('onstart', event);
+      };
+      recognition.onresult = function(event) {
+        var results = event.results;
+        var i = event.resultIndex;
+        var result = results[i];
+        console.info('Result - Final: %s, Confidence: %s, Word: %s, Length: %s', result.isFinal, result[0].confidence, result[0].transcript, result.length);
+        if (result[0].confidence > 0.8) {
+          var text = result[0].transcript;
+          var words = text.split(' ');
+          var lastWords = words.slice(words.length - 3, words.length);
+          console.log(lastWords);
+          if (lastWords.indexOf('herlaad') >= 0) {
+            window.location.reload();
+          } else if (lastWords.indexOf('moeder') >= 0) {
+            console.log('Ik hoorde je moeder!');
+          } else if (lastWords.indexOf('koffie') >= 0) {
+            console.log('Ik hoorde koffie!');
+          }
+        }
+      };
+      recognition.onerror = function(event) {
+        console.warn('onerror', event);
+      };
+      recognition.onend = function(event) {
+        console.log('onend', event);
+      };
+    }());
+  </script>
+</body>

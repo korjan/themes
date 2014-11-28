@@ -28,12 +28,25 @@
   var ctx = canvas.getContext('2d');
   var localMediaStream = null;
 
+  function generateThumbnail(i) {
+      //generate thumbnail URL data
+      var context = canvas.getContext('2d');
+      context.drawImage(video, 0, 0, 220, 150);
+      var dataURL = canvas.toDataURL();
+
+      //append img in container div
+      document.getElementById('face').setAttribute('src', dataURL);
+  }
+
   function snapshot() {
     if (localMediaStream) {
+
+
       ctx.drawImage(video, 0, 0);
       // "image/webp" works in Chrome.
       // Other browsers will fall back to image/png.
-      document.querySelector('#face').src = canvas.toDataURL('image/webp');
+      //document.querySelector('#face').src = canvas.toDataURL('image/webp');
+        generateThumbnail();
 
       setTimeout(function(){
         console.log('detecting in image');
