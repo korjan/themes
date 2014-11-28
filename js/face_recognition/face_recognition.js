@@ -5,8 +5,7 @@
 	var $face = $('#face');
 	var localMediaStream = null;
 	var _tim = window.tim;
-
-	_tim.playedSessions = [];
+	var playIntervalMinutes = 1;
 
 	// check for getUserMedia support
 		navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;
@@ -129,10 +128,10 @@
 
 	function playSoundForPerson(name) {
 		var now = new Date();
-		if(_tim.playedSessions[name]) {
+		if(_tim.face.playedSessions[name]) {
 
-			var playedSince = _tim.playedSessions[name].time.getTime();
-			playedSince += 1000 * 60 * 10;
+			var playedSince = _tim.face.playedSessions[name].time.getTime();
+			playedSince += 1000 * 60 * playIntervalMinutes;
 			if( playedSince > now.getTime() ) {
 				console.log('has been played!');
 				// Person's theme has neem played recently.
@@ -144,7 +143,7 @@
 	}
 
 	function recordSession( name ) {
-		_tim.playedSessions[name] = {
+		_tim.face.playedSessions[name] = {
 			name: name,
 			time: new Date()
 		};
