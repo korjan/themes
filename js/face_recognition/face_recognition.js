@@ -31,7 +31,6 @@
 			 timeout = setTimeout(function(){
 
 				$face.objectdetect("all", {classifier: objectdetect.frontalface}, function(faces) {
-					console.log('faces', faces);
 
 					if (faces.length > 0 ){
 						detectFace();
@@ -69,22 +68,20 @@
 		// if found attach feed to video element
 		video.src = window.URL.createObjectURL(stream);
 		localMediaStream = stream;
-		console.log('snapshot');
 		snapshot(stream);
 	}
 
 	function videoError(e) {
 		// no webcam found - do something
-		console.log('cam error', e);
+		console.error('cam error', e);
 	}
 
 	function startCamera() {
 		if (navigator.getUserMedia) {
 			// get webcam feed if available
-			console.log('get user media');
 			navigator.getUserMedia({video: true}, handleVideo, videoError);
 		} else {
-			console.log('darn');
+			console.error('Could not start video-input');
 		}
 	}
 
@@ -107,9 +104,6 @@
 
 		var data = {img : blob, group_name : 'testgroep'};
 		var cb = function(error, result) {
-			console.log('face++ callback:', error, result);
-
-			console.log('recognized remotely:' + new Date() + '<br/>');
 			if(!result.face[0]) {
 				// No match found!
 				snapshot();
@@ -133,7 +127,6 @@
 			var playedSince = _tim.face.playedSessions[name].time.getTime();
 			playedSince += 1000 * 60 * playIntervalMinutes;
 			if( playedSince > now.getTime() ) {
-				console.log('has been played!');
 				// Person's theme has neem played recently.
 				return;
 			}
