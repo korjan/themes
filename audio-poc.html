@@ -11,9 +11,12 @@
         recognition: null,
         isPlaying: false,
         lastPlayed: null,
+        start: null,
         words: {
-          zwart: '/public/nigga.m4a',
-          zwarte: '/public/nigga.m4a',
+          wrappen: '/public/nigga.m4a',
+          rappen: '/public/nigga.m4a',
+          wrap: '/public/nigga.m4a',
+          rap: '/public/nigga.m4a',
           sexy: '/public/sexy.m4a',
           lekker: '/public/lekker.m4a',
           werk: '/public/mongol.mp3',
@@ -21,7 +24,9 @@
           gek: '/public/gek.m4a',
           goor: '/public/goor.m4a',
           schnitzel: '/public/schnitzel.m4a',
+          schnitzels: '/public/schnitzel.m4a',
           snietsel: '/public/schnitzel.m4a',
+          sneasel: '/public/schnitzel.m4a',
         }
       };
     }());
@@ -29,56 +34,68 @@
 
   <script>
     (function() {
-      var recognition = new webkitSpeechRecognition();
-      window.tim.recognition = recognition;
+      window.tim.start = _start;
+      _start();
 
-      recognition.continuous = true;
-      recognition.interimResults = true;
-      recognition.lang = 'nl-NL';
+      /*
+       * Initialise, start and save the webkitSpeechRecognition.
+       */
+      function _start() {
+        var recognition = new webkitSpeechRecognition();
+        window.tim.recognition = recognition;
 
-      recognition.start();
+        recognition.continuous = true;
+        recognition.interimResults = true;
+        recognition.lang = 'nl-NL';
 
-      recognition.onstart = function(event) {
-        console.log('onstart', event);
-      };
+        recognition.start();
 
-      recognition.onresult = function(event) {
-        var results = event.results;
-        var i = event.resultIndex;
-        var result = results[i];
-        console.info('Result - Final: %s, Confidence: %s, Word: %s, Length: %s', result.isFinal, result[0].confidence, result[0].transcript, result.length);
-        var text = result[0].transcript;
-        var words = text.split(' ');
-        var lastWords = words.slice(words.length - 3, words.length);
-        console.log(lastWords);
+        recognition.onstart = function(event) {
+          console.log('onstart', event);
+        };
 
-        lastWords.forEach(function(word) {
-          var hit = window.tim.words[word];
+        recognition.onresult = function(event) {
+          var results = event.results;
+          var i = event.resultIndex;
+          var result = results[i];
+          console.info('Result - Final: %s, Confidence: %s, Word: %s, Length: %s', result.isFinal, result[0].confidence, result[0].transcript, result.length);
+          var text = result[0].transcript;
+          var words = text.split(' ');
+          var lastWords = words.slice(words.length - 3, words.length);
+          console.log(lastWords);
 
-          if (hit && !window.tim.isPlaying && window.tim.lastPlayed != hit) {
-            console.log('Play', hit);
-            window.tim.isPlaying = true;
-            window.tim.lastPlayed = hit;
-            var audio = new Audio();
-            audio.src = hit;
-            audio.onerror = function() {
-              console.warn('err', arguments);
-            };
-            audio.onended = function() {
-              window.tim.isPlaying = false;
-            };
-            audio.play();
-          }
-        });
-      };
+          lastWords.forEach(function(word) {
+            var hit = window.tim.words[word];
 
-      recognition.onerror = function(event) {
-        console.warn('onerror', event);
-      };
+            if (hit && !window.tim.isPlaying && window.tim.lastPlayed != hit) {
+              console.log('Play', hit);
+              window.tim.isPlaying = true;
+              window.tim.lastPlayed = hit;
+              var audio = new Audio();
+              audio.src = hit;
+              audio.onerror = function() {
+                console.warn('err', arguments);
+              };
+              audio.onended = function() {
+                window.tim.isPlaying = false;
+              };
+              audio.play();
+            }
+          });
+        };
 
-      recognition.onend = function(event) {
-        console.log('onend', event);
-      };
+        recognition.onerror = function(event) {
+          console.warn('onerror', event);
+          // Back of!
+          setTimeout(function() {
+            window.tim.start();
+          }, 1000);
+        };
+
+        recognition.onend = function(event) {
+          console.log('onend', event);
+        };
+      }
     }());
   </script>
 </body>
