@@ -27,7 +27,11 @@ app.set('view engine', 'jade');
 server.listen(8080);
 
 app.get('/', function (req, res) {
-  res.render('index', {title: 'hallo'});
+  res.render('index');
+});
+
+app.get('/add-person', function (req, res) {
+  res.render('add-person');
 });
 
 io.on('connection', function (socket) {
