@@ -23,70 +23,102 @@
   <video autoplay></video>
 <canvas style="display:none;"></canvas>
 <script>
-  var video = document.querySelector('video');
-  var canvas = document.querySelector('canvas');
-  var ctx = canvas.getContext('2d');
-  var localMediaStream = null;
+    function dataURItoBlob(dataURI) {
+          // convert base64/URLEncoded data component to raw binary data held in a string
+          var byteString;
+          if (dataURI.split(',')[0].indexOf('base64') >= 0)
+              byteString = atob(dataURI.split(',')[1]);
+          else
+              byteString = unescape(dataURI.split(',')[1]);
 
-  function generateThumbnail(i) {
-      //generate thumbnail URL data
-      var context = canvas.getContext('2d');
-      context.drawImage(video, 0, 0, 220, 150);
-      var dataURL = canvas.toDataURL();
+          // separate out the mime component
+          var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
 
-      //append img in container div
-      document.getElementById('face').setAttribute('src', dataURL);
-  }
-
-  function snapshot() {
-    if (localMediaStream) {
-
-
-      ctx.drawImage(video, 0, 0);
-      // "image/webp" works in Chrome.
-      // Other browsers will fall back to image/png.
-      //document.querySelector('#face').src = canvas.toDataURL('image/webp');
-        generateThumbnail();
-
-      setTimeout(function(){
-        console.log('detecting in image');
-        $("#face").objectdetect("all", {classifier: objectdetect.frontalface}, function(faces) {
-          console.log('faces', faces);
-          for (var i = 0; i < faces.length; ++i) {
-            log('BAM Face<br/>');
-            $(this).highlight(faces[i], "red");
-            document.getElementById('audioyo').play();
-            console.log('face:', faces[i]);
+          // write the bytes of the string to a typed array
+          var ia = new Uint8Array(byteString.length);
+          for (var i = 0; i < byteString.length; i++) {
+              ia[i] = byteString.charCodeAt(i);
           }
-        });
-      }, 200);
-      
+
+          return new Blob([ia], {type:mimeString});
     }
-  }
 
-  setInterval(function(){
-    snapshot();
-  }, 1000);
+  startRecognizing = function(){
+    var video = document.querySelector('video');
+    var canvas = document.querySelector('canvas');
+    var ctx = canvas.getContext('2d');
+    var localMediaStream = null;
 
-  function handleVideo(stream) {
-    // if found attach feed to video element
-    video.src = window.URL.createObjectURL(stream);
-    localMediaStream = stream;
-  }
- 
-  function videoError(e) {
-    // no webcam found - do something
-    console.log('cam error', e);
-  }
-  // check for getUserMedia support
-  navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;
- 
-  if (navigator.getUserMedia) {       
-    // get webcam feed if available
-    console.log('get user media');
-    navigator.getUserMedia({video: true}, handleVideo, videoError);
-  } else {
-    console.log('darn');
+    function generateThumbnail(i) {
+        //generate thumbnail URL data
+        var context = canvas.getContext('2d');
+        context.drawImage(video, 0, 0, 220, 150);
+        var dataURL = canvas.toDataURL();
+
+        //append img in container div
+        document.getElementById('face').setAttribute('src', dataURL);
+        var blob = dataURItoBlob(dataURL); 
+        console.log('blob', blob);
+    }
+
+    function snapshot() {
+      if (localMediaStream) {
+
+        ctx.drawImage(video, 0, 0);
+        // "image/webp" works in Chrome.
+        // Other browsers will fall back to image/png.
+        //document.querySelector('#face').src = canvas.toDataURL('image/webp');
+          generateThumbnail();
+
+         timeout = setTimeout(function(){
+          console.log('detecting in image');
+          
+          $("#face").objectdetect("all", {classifier: objectdetect.frontalface}, function(faces) {
+            console.log('faces', faces);
+            console.log('interval', interval);
+            console.log('timeout', timeout);
+
+            if (faces.length > 0 ){
+              detectFace();
+              window.clearTimeout(interval);
+              window.clearTimeout(timeout);
+            }
+            for (var i = 0; i < faces.length; ++i) {
+              log('BAM Face<br/>');
+              $(this).highlight(faces[i], "red");
+              document.getElementById('audioyo').play();
+              console.log('face:', faces[i]);
+            }
+          });
+        }, 2000);
+        
+      }
+    }
+
+    var interval = setInterval(function(){
+      snapshot();
+    }, 1000);
+
+    function handleVideo(stream) {
+      // if found attach feed to video element
+      video.src = window.URL.createObjectURL(stream);
+      localMediaStream = stream;
+    }
+   
+    function videoError(e) {
+      // no webcam found - do something
+      console.log('cam error', e);
+    }
+    // check for getUserMedia support
+    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;
+   
+    if (navigator.getUserMedia) {       
+      // get webcam feed if available
+      console.log('get user media');
+      navigator.getUserMedia({video: true}, handleVideo, videoError);
+    } else {
+      console.log('darn');
+    }
   }
 
 </script>
@@ -100,7 +132,7 @@
     
     $('.btn').click(function(){
       log('OYOOO<br/>');
-      document.getElementById('audioyo').play();
+      startRecognizing();
     })
   </script>
   <script src="js/objectdetect.js"></script>
@@ -108,9 +140,6 @@
   <script src="js/objectdetect.frontalface.js"></script>
   <script src="js/jquery.objectdetect.js"></script>
   
-  <script>
-
-  </script>
   <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.1.6/js/ripples.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.1.6/js/material.min.js"></script>
@@ -120,33 +149,52 @@
       });
   </script>
   <script>
-  $.fn.highlight = function(rect, color) {
-    $("<div />", {
-      "css": {
-        "border":   "2px solid " + color,
-        "position": "absolute",
-        "left":   ($(this).offset().left + rect[0]) + "px",
-        "top":    ($(this).offset().top  + rect[1]) + "px",
-        "width":  rect[2] + "px",
-        "height":   rect[3] + "px"
-      }
-    }).appendTo("body");
-  };
+    $.fn.highlight = function(rect, color) {
+      $("<div />", {
+        "css": {
+          "border":   "2px solid " + color,
+          "position": "absolute",
+          "left":   ($(this).offset().left + rect[0]) + "px",
+          "top":    ($(this).offset().top  + rect[1]) + "px",
+          "width":  rect[2] + "px",
+          "height":   rect[3] + "px"
+        }
+      }).appendTo("body");
+    };
   </script>
-  <script type="text/javascript" src="facepp-sdk.min.js"></script>
+  <script type="text/javascript" src="js/facepp-sdk.min.js"></script>
    <script type="text/javascript">
-            // Your JavaScript code for the application
-            var api = new FacePP('020926d7d1cc5067ea7a219782298e09',
-                     'eGLjJoOHByu_zm8uD0Z09IZAqa71A-m7',
-                     { apiURL: 'http://apius.faceplusplus.com/v2' });
+    function detectFace(){
 
-            method = 'detection/detect';
-            data  = { url : 'https://www.dropbox.com/s/p40hmqlrsx89ri3/nerd.jpg?dl=0' };
-            cb = function(error, result) {
-              console.log(error, result);
-            }
-            session = api.requestAsync(method, data, cb);
-            console.log('session', session);
-        
-        </script>
+      var dataURL = document.querySelector('canvas').toDataURL('image/jpeg', 0.5);
+      var blob = dataURItoBlob(dataURL); 
+      // var fd = new FormData(document.forms[0]);
+      // fd.append("canvasImage", blob);
+
+      // Your JavaScript code for the application
+      var api = new FacePP('020926d7d1cc5067ea7a219782298e09',
+               'eGLjJoOHByu_zm8uD0Z09IZAqa71A-m7',
+               { apiURL: 'http://apius.faceplusplus.com/v2' });
+
+      method = 'detection/detect';
+      // method = '/recognition/identify';
+      // data  = { url : 'https://photos-5.dropbox.com/t/1/AACwX0zc_YOojWG97fHdUvmhX-OBtgL4ze-HFFBoEvFEqA/12/1613825/jpeg/1024x768/3/1417176000/0/2/nerd.jpg/jrDpSQ_yFr8zAL5g4uW75EU1NAqPC2w7XD1PXGwPexg' };
+
+      data = {img : blob};
+      cb = function(error, result) {
+        console.log('callback:', error, result);
+        console.log('face:', result);
+
+        //detect returns result.face[0].face_id; 
+
+        // identify returns result.candidate[];
+        // person_name == ""
+        document.getElementById('audioyo').play();
+
+
+      }
+      session = api.requestAsync(method, data, cb);
+      console.log('session', session);
+    }    
+    </script>
 </body>
