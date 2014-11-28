@@ -8,11 +8,6 @@
 <body>
   <div class="navbar navbar-default navbar-material-lime">
     <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
         <a class="navbar-brand" href="javascript:void(0)">TIM.io</a>
     </div>
   </div>
@@ -21,46 +16,11 @@
     <audio id="audioyo" src="public/sample-beep.mp3"></audio>
     <button class="btn btn-material-lime">TIM.me</button>
      <i class="icon icon-material-favorite"></i>
+     <img id="face">
     <section id="log">
     </section>
-    <div id="info">
-      <p id="info_start">Click on the microphone icon and begin speaking.</p>
-      <p id="info_speak_now">Speak now.</p>
-      <p id="info_no_speech">No speech was detected. You may need to adjust your
-        <a href="//support.google.com/chrome/bin/answer.py?hl=en&amp;answer=1407892">
-          microphone settings</a>.</p>
-      <p id="info_no_microphone" style="display:none">
-        No microphone was found. Ensure that a microphone is installed and that
-        <a href="//support.google.com/chrome/bin/answer.py?hl=en&amp;answer=1407892">
-        microphone settings</a> are configured correctly.</p>
-      <p id="info_allow">Click the "Allow" button above to enable your microphone.</p>
-      <p id="info_denied">Permission to use microphone was denied.</p>
-      <p id="info_blocked">Permission to use microphone is blocked. To change,
-        go to chrome://settings/contentExceptions#media-stream</p>
-      <p id="info_upgrade">Web Speech API is not supported by this browser.
-         Upgrade to <a href="//www.google.com/chrome">Chrome</a>
-         version 25 or later.</p>
-    </div>
-    <div class="right">
-      <button id="start_button" onclick="startButton(event)">
-        Start</button>
-    </div>
-    <div id="results">
-      <span id="final_span" class="final"></span>
-      <span id="interim_span" class="interim"></span>
-      <p>
-    </div>
-    <div class="center">
-      <div id="div_language">
-        <select id="select_language" onchange="updateCountry()"></select>
-        &nbsp;&nbsp;
-        <select id="select_dialect"></select>
-      </div>
-    </div>
   </div>
-  <img id="image" src="img/faces.jpg">
   <video autoplay></video>
-<img src="">
 <canvas style="display:none;"></canvas>
 
 <script>
@@ -74,11 +34,27 @@
       ctx.drawImage(video, 0, 0);
       // "image/webp" works in Chrome.
       // Other browsers will fall back to image/png.
-      document.querySelector('#image').src = canvas.toDataURL('image/webp');
+      document.querySelector('#face').src = canvas.toDataURL('image/webp');
+
+      setTimeout(function(){
+        console.log('detecting in image');
+        $("#face").objectdetect("all", {classifier: objectdetect.frontalface}, function(faces) {
+          console.log('faces', faces);
+          for (var i = 0; i < faces.length; ++i) {
+            log('BAM Face<br/>');
+            document.getElementById('audioyo').play();
+            console.log('face:', faces[i]);
+          }
+      });
+      }, 200);
+      
     }
   }
 
-  video.addEventListener('click', snapshot, false);
+  setInterval(function(){
+    snapshot();
+  }, 1000);
+
   function handleVideo(stream) {
     // if found attach feed to video element
     video.src = window.URL.createObjectURL(stream);
@@ -115,14 +91,12 @@
     })
   </script>
   <script src="js/objectdetect.js"></script>
+  <script src="js/objectdetect.eye.js"></script>
   <script src="js/objectdetect.frontalface.js"></script>
   <script src="js/jquery.objectdetect.js"></script>
   
   <script>
-      $("#image").objectdetect("all", {classifier: objectdetect.frontalface}, function(coords) {
-          console.log(coords);
-          log('BAM Face<br/>');
-      });
+
   </script>
   <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.1.6/js/ripples.min.js"></script>
