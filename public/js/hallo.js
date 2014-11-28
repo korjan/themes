@@ -46,14 +46,14 @@ function _onresult(event) {
 
 function _onerror(event) {
   console.warn('Tim encountered a error while listening.', event);
-  // Back of!
-  setTimeout(function() {
-    _start();
-  }, 1000);
 }
 
 function _onend() {
   console.log('Tim is not listening anymore');
+  // Back of!
+  setTimeout(function() {
+    _start();
+  }, 1000);
 }
 
 }());
