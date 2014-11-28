@@ -108,8 +108,12 @@
 			console.log('face++ callback:', error, result);
 
 			console.log('recognized remotely:' + new Date() + '<br/>');
-
-			//TODO: check that Ted is the actual match.
+			if(!result.face[0]) {
+				// No match found!
+				snapshot();
+				return;
+			}
+			
 			var candidate = result.face[0].candidate[0];
 
 			if (candidate.confidence > 20){
