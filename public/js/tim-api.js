@@ -60,4 +60,6 @@
       guus: '/audio/guus.mp3',
     }
   };
+  tim.words = JSON.parse(document.getElementById('eventData').textContent);
+  console.log(events);
 }());

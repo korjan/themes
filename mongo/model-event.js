@@ -5,7 +5,8 @@ var ObjectId = Schema.ObjectId;
 var eventSchema = new Schema({
     id    : ObjectId,
     name: String,
-    audio: Buffer
+    audio: Buffer,
+    filename: String
 });
 
 
