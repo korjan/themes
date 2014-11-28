@@ -51,7 +51,6 @@
 
 
 	function createFaceSet(faceData) {
-		console.log(faceData);
 		faceId = faceData.face[0]['face_id'];
 		var data = {
 			face_id: faceId,
