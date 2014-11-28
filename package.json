@@ -1,0 +1,25 @@
+{
+  "name": "themes",
+  "version": "1.0.0",
+  "description": "Themes ====== When recognizing specific spoken words / faces / text, play a theme song or video, with a little randomness.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/korjan/themes.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/korjan/themes/issues"
+  },
+  "homepage": "https://github.com/korjan/themes",
+  "dependencies": {
+    "express": "^4.10.4",
+    "mongodb": "^1.4.22",
+    "socket.io": "^1.2.1",
+    "underscore": "^1.7.0"
+  }
+}

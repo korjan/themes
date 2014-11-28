@@ -4,6 +4,7 @@
   <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
   <link href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.1.6/css/ripples.min.css" rel="stylesheet">
   <link href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.1.6/css/material-wfont.min.css" rel="stylesheet">
+  
 </head>
 <body>
   <div class="navbar navbar-default navbar-material-lime">
@@ -22,9 +23,13 @@
   </div>
   <video autoplay></video>
 <canvas style="display:none;"></canvas>
+<script src="/socket.io/socket.io.js"></script>
 <script>
-    
-
+  var socket = io.connect('http://localhost');
+  socket.on('news', function (data) {
+    console.log(data);
+    socket.emit('my other event', { my: 'data' });
+  });
 </script>
   <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
   <script src="js/objectdetect.js"></script>
