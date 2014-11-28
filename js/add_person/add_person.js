@@ -6,35 +6,64 @@
 		createFaceSetCall = '/faceset/create',
 		createFaceCall = '/detection/detect',
 		createPersonCall = '/person/create',
+		trainGroupCall = '/train/identify',
 		person_name,
-		faceId;
+		faceId,
+		fileReader = new FileReader(),
+		formdata;
+
+		
 
 
-	$('#add-person-form').on('submit', function() {
-		var formdata = new FormData();
+	$('#add-person-form').on('submit', function( event ) {
+		event.preventDefault();
+
+		formdata = {};
 		person_name = $('#person-name-field').val();
-		formdata.append('person_name', person_name);
-		formdata.append('img', $('#img-field')[0].files[0]);
-		formdata.append('group_name', groupName);
-		createFace( formdata );
+		formdata['person_name'] = person_name;
+		formdata['group_name'] = groupName;
+		getBlobFromFile($('#img-field')[0].files[0], function( image ) {
+			formdata['img'] = image;
+			createFace( formdata );
+		});
+		return false;
 	});
+
+
+	function getBlobFromFile(file, callback) {
+		
+		fileReader.onload = function(e) { 
+			var content = e.target.result;
+			callback(new Blob([new Uint8Array(content)]));
+		}
+		fileReader.readAsArrayBuffer(file);
+
+/*		var dataView = new Uint8Array(file);
+		console.log(dataView);
+		var dataBlob = new Blob([dataView]);//new Blob
+		return dataBlob;*/
+	}
 
 
 	function createFaceSet(faceData) {
 		console.log(faceData);
-		faceId = faceData.face[0];
+		faceId = faceData.face[0]['face_id'];
 		var data = {
 			face_id: faceId,
 			faceset_name: 'faceset_' + person_name
 		};
-		faceApi.requestAsync(createFaceSetCall, data, createPerson);
+		faceApi.request(createFaceSetCall, data, function(err, data) {
+			createPerson(data);
+		});
 	}
 
 	function createPerson(faceSetData) {
 		console.log(faceSetData);
-		formdata.append('face_id', faceId);
+		formdata['face_id'] = faceId;
 
-		faceApi.requestAsync(createPersonCall, data, createPerson);
+		faceApi.request(createPersonCall, formdata, function() {
+			trainGroup();
+		});
 		
 		
 		// Create faceset
@@ -42,9 +71,18 @@
 		// Create person with face-ids
 	}
 
-	function createFace() {
+	function createFace(formdata) {
 		console.log('creating face.');
-		faceApi.requestAsync(createFaceCall, formdata, createFaceSet);
+		faceApi.request(createFaceCall, formdata, function(err, data) {
+			createFaceSet(data);
+		});
+	}
+
+
+	function trainGroup() {
+		faceApi.request(trainGroupCall, {group_name: groupName}, function() {
+			alert('persoon toegevoegd');
+		});
 	}
 
 
