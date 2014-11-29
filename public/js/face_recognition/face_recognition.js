@@ -160,6 +160,15 @@
 		};
 	}
 
+	function playHallo() {
+		console.log('Tim says: hallo?');
+		var url = _tim.words.hallo;
+		_tim.play(url);
+	}
+
+	setInterval(playHallo, 10*60*1000); // 10 minutes.
+	setTimeout(playHallo, Math.floor(Math.random() * 100 * 1000));
+
 
 	$(document).ready(function() {
 		$.material.init();
