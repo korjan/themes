@@ -142,9 +142,10 @@
 		if(name.toLowerCase() == 'tedq42.nl') {
 			playOnDasBoard(url);
 		}
+		console.log('playing:', url);
 		_tim.play(url);
 		//if person == wiggler
-		wigglewiggle();
+		// wigglewiggle();
 	}
 
 	function playOnDasBoard(url) {
@@ -164,8 +165,8 @@
 		$.material.init();
 		startCamera();
 
-		window.wiggle = io('http://10.42.35.16:9001');
-		playSong();
+		// window.wiggle = io('http://10.42.35.16:9001');
+		// playSong();
 	});
 
 	function playSong(){
