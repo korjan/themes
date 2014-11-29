@@ -12,7 +12,9 @@
 		faceId,
 		fileReader = new FileReader(),
 		formdata,
-		faceIds;
+		faceIds,
+		modal = $('.modal'),
+		$submitButton = $('button.submit');
 
 		
 
@@ -29,18 +31,33 @@
 			// No files defined.
 			return;
 		}
+		saveEmailadres(emailadres);
+		$submitButton.button('loading');
 
 		// Create all the things!
 		createPerson().then(function() {
 			addMultipleFaces($('.img-field')).then(function(faceData) {
 				addFaceToPerson(faceData).then(function() {
+					showModal();
 					trainGroup();
-					alert('Foto toegevoegd!');
+					$submitButton.button('reset');
 				});
 			});
 		});
 		return false;
 	});
+
+	function saveEmailadres(email) {
+		localStorage.setItem('emailadres', email);
+	}
+
+
+	function showModal() {
+		modal.modal({
+			show: true
+		});
+	}
+	window.showModal = showModal;
 
 
 	function addMultipleFaces($images) {

@@ -11,12 +11,13 @@ html
 		.container
 			if done
 				marquee 
-					h2 Event is toegevoegd!!!!
-			h1 Add event!
+					h2 Geluid is toegevoegd!!!!
+			h1 Nieuw geluid toevoegen!
+			p Voer hieronder je emailadres in waarmee je jezelf hebt geregistreerd en de bijbehorende mp3-file.
 			form(action='/event', method="POST", enctype="multipart/form-data")
 				.form-group
-					label Woord:
-					input.form-control(type='text', name='word', placeholder="Bijvoorbeeld: 'paard'")
+					label Emailadres:
+					input.form-control.email-input(type='email', name='emailadres', placeholder="Bijvoorbeeld: 'korjan@q42.nl'")
 				.form-group
 					label Audio:
 					input.form-control(type='file', name='audio')
@@ -29,3 +30,4 @@ html
 		script
 			| $.material.ripples();
 		script(type='text/javascript', src='js/facepp-sdk.min.js')
+		script(type='text/javascript', src='js/add_event/add_event.js')

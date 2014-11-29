@@ -59,15 +59,21 @@
       muziek: '/audio/muziek.mp3',
       muziekje: '/audio/muziek.mp3',
       trein: '/audio/trein.mp3',
+      9292: '/audio/trein.mp3',
       film: '/audio/film.mp3',
       nutteloos: '/audio/rondjes.mp3',
       lunch: '/audio/bacon.mp3',
+      lunchen: '/audio/bacon.mp3',
+      bacon: '/audio/bacon.mp3',
+      ongezond: '/audio/bacon.mp3',
+      bier: '/audio/bier.mp3',
+      dag: '/audio/dag.mp3',
+      doei: '/audio/dag.mp3',
+      hallo: '/audio/hallo.mp3',
+      ajax: '/audio/feyenoord.mp3',
+      voetbal: '/audio/feyenoord.mp3',
     },
-    persons: {
-      ted: '/audio/ted.mp3',
-      guus: '/audio/guus.mp3',
-      korjan: 'audio/korjan.mp3'
-    }
   };
-  //tim.words = JSON.parse(document.getElementById('eventData').textContent);
+
+  window.tim.persons = JSON.parse(document.getElementById('eventData').textContent);
 }());

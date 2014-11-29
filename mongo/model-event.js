@@ -4,7 +4,7 @@ var Schema = mongoose.Schema;
 var ObjectId = Schema.ObjectId;
 var eventSchema = new Schema({
     id    : ObjectId,
-    name: String,
+    emailadres: String,
     audio: Buffer,
     filename: String
 });

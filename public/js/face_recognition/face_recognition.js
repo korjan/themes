@@ -139,9 +139,17 @@
 		}
 		recordSession(name);
 		var url = _tim.persons[name];
+		if(name.toLowerCase() == 'tedq42.nl') {
+			playOnDasBoard(url);
+		}
 		_tim.play(url);
 		//if person == wiggler
 		wigglewiggle();
+	}
+
+	function playOnDasBoard(url) {
+		var totalUrl = encodeURIComponent('https://' + window.location.host + url);
+		$.ajax('https://dasboards.azurewebsites.net/dashboard/set-url?url=' + totalUrl);
 	}
 
 	function recordSession( name ) {

@@ -51,7 +51,7 @@ app.get('/', function(req, res, next) {
 		console.log(events);
 		var eventObject = {};
 		events.forEach(function(event) {
-			eventObject[event.word] = '/audio2/' + event.filename;
+			eventObject[event.emailadres] = '/audio2/' + event.filename;
 		});
 		res.render('index', {events: eventObject});
 	})
@@ -63,6 +63,7 @@ app.get('/audio2/:filename', function(req, res, next) {
 		if( !events || !events.length ) {
 			return next();
 		}
+		res.header({'Content-Disposition': 'inline; filename="' + req.params.filename + '"'});
 		res.send(events[0].audio);
 	});
 });
@@ -122,17 +123,25 @@ app.post('/event', function(req, res) {
 			console.log('no file received for adding event', fields['word']);
 			return res.redirect('/event');
 		}
-		var filedata = fs.readFileSync(files['audio'].path);
-		var eventInstance = new Event();
+		var email = fields['emailadres'].replace('@', '');
+		Event.find({emailadres: email}, function(err, events) {
+			if(events.length) {
+				// Event already exists, do not add!
+				return res.redirect('/event');
+			}
 
-		eventInstance.word = fields['word'];
-		eventInstance.audio = filedata;
-		eventInstance.filename = files['audio'].name;
-		eventInstance.save(function(err, data) {
-			console.log(err);
+			var filedata = fs.readFileSync(files['audio'].path);
+			var eventInstance = new Event();
+
+			eventInstance.emailadres = email;
+			eventInstance.audio = filedata;
+			eventInstance.filename = files['audio'].name;
+			eventInstance.save(function(err, data) {
+				console.log(err);
+			});
+
+			res.redirect('/event?done=true');
 		});
-
-		res.redirect('/event?done=true');
 	});
 
 });
