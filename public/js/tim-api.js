@@ -40,6 +40,7 @@
       lekker: '/audio/lekker.m4a',
       werk: '/audio/mongol.mp3',
       raar: '/audio/raar.mp3',
+      maar: '/audio/raar.mp3',
       gek: '/audio/gek.m4a',
       goor: '/audio/goor.m4a',
       schnitzel: '/audio/schnitzel.m4a',
