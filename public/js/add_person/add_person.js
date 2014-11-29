@@ -94,4 +94,7 @@
 		return dfd.promise();
 	}
 
+
+	$.material.ripples();
+
 })();

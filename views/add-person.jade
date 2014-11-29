@@ -5,20 +5,24 @@ html
 		link(href='//cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.1.6/css/ripples.min.css', rel='stylesheet')
 		link(href='//cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.1.6/css/material-wfont.min.css', rel='stylesheet')
 	body
-		.navbar.navbar-default.navbar-material-lime
+		.navbar.navbar-default.navbar-material-indigo
 			.navbar-header
 				a.navbar-brand(href='javascript:void(0)') TIM.io
 		.container
 			h1 TIM.io Test
 			form#add-person-form(action='#')
-				label
-					span Naam:
-					input#person-name-field(type='text', name='person_name')
-				label
-					span Foto:
-					input#img-field(type='file', name='img', accept='image/*', capture='capture')
+				.form-group
+					label Naam:
+					input.form-control#person-name-field(type='text', name='person_name', placeholder="Bijvoorbeeld 'Ted'")
+				.form-group
+					label Foto:
+					input.form-control#img-field(type='file', name='img', accept='image/*', capture='capture')
 				div
-					button(type='submit') Toevoegen
+					button.btn.btn-primary(type='submit') Toevoegen
 		script(src='//code.jquery.com/jquery-1.10.2.min.js')
+		script(src='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js')
+		script(src='//cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.1.6/js/ripples.min.js')
+		script(src='//cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.1.6/js/material.min.js')
+		
 		script(type='text/javascript', src='js/facepp-sdk.min.js')
 		script(src='js/add_person/add_person.js')
