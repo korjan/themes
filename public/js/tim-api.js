@@ -37,6 +37,7 @@
       wrap: '/audio/nigga.m4a',
       rap: '/audio/nigga.m4a',
       sexy: '/audio/sexy.m4a',
+      guus: '/audio/sexy.m4a',
       lekker: '/audio/lekker.m4a',
       werk: '/audio/mongol.mp3',
       raar: '/audio/raar.mp3',
