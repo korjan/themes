@@ -54,6 +54,8 @@
       iphone: '/audio/connected.mp3',
       blackberry: '/audio/connected.mp3',
       bootcamp: '/audio/connected.mp3',
+      fantastisch: '/audio/mooi.mp3',
+      prachtig: '/audio/mooi.mp3',
     },
     persons: {
       ted: '/audio/ted.mp3',
