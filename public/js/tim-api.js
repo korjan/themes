@@ -62,7 +62,13 @@
       film: '/audio/film.mp3',
       nutteloos: '/audio/rondjes.mp3',
       lunch: '/audio/bacon.mp3',
+      lunchen: '/audio/bacon.mp3',
+      bacon: '/audio/bacon.mp3',
+      ongezond: '/audio/bacon.mp3',
       bier: '/audio/bier.mp3',
+      dag: '/audio/dag.mp3',
+      hallo: '/audio/dag.mp3',
+      doei: '/audio/dag.mp3',
     },
     persons: {
       ted: '/audio/ted.mp3',
