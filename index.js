@@ -67,8 +67,7 @@ app.get('/audio2/:filename', function(req, res, next) {
 
 
 app.get('/sign_s3', function(req, res){
-	console.log('keys:', AWS_ACCESS_KEY, AWS_SECRET_KEY);
-    aws.config.update({accessKeyId: AWS_ACCESS_KEY, secretAccessKey: AWS_SECRET_KEY});
+    aws.config.update({accessKeyId: AWS_ACCESS_KEY, secretAccessKey: AWS_SECRET_KEY, region: 'eu-west-1'});
     var s3 = new aws.S3();
     var s3_params = {
         Bucket: S3_BUCKET,
@@ -86,7 +85,7 @@ app.get('/sign_s3', function(req, res){
         else{
             var return_data = {
                 signed_request: data,
-                url: 'https://'+S3_BUCKET+'.s3-eu-west-1.amazonaws.com/'+req.query.s3_object_name
+                url: 'https://'+S3_BUCKET+'.s3.amazonaws.com/'+req.query.s3_object_name
             };
             res.write(JSON.stringify(return_data));
             res.end();
