@@ -61,6 +61,7 @@ app.get('/audio2/:filename', function(req, res, next) {
 		if( !events || !events.length ) {
 			return next();
 		}
+		res.header({'Content-Disposition': 'inline; filename="' + req.params.filename + '"'});
 		res.send(events[0].audio);
 	});
 });
