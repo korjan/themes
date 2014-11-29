@@ -56,11 +56,15 @@
       bootcamp: '/audio/connected.mp3',
       fantastisch: '/audio/mooi.mp3',
       prachtig: '/audio/mooi.mp3',
+      muziek: '/audio/muziek.mp3',
+      muziekje: '/audio/muziek.mp3',
+      trein: '/audio/trein.mp3',
+      film: '/audio/film.mp3',
     },
     persons: {
       ted: '/audio/ted.mp3',
       guus: '/audio/guus.mp3',
     }
   };
-  tim.words = JSON.parse(document.getElementById('eventData').textContent);
+  //tim.words = JSON.parse(document.getElementById('eventData').textContent);
 }());
