@@ -64,6 +64,11 @@ app.post('/event', function(req, res) {
 
 	var form = new formidable.IncomingForm();
 	form.parse(req, function(err, fields, files) {
+		if( !files['audio'].size ) {
+			// No file given!
+			console.log('no file received for adding event', fields['word']);
+			return res.redirect('/event');
+		}
 		var filedata = fs.readFileSync(files['audio'].path);
 		var eventInstance = new Event();
 
