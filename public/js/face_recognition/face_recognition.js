@@ -138,7 +138,7 @@
 		}
 		recordSession(name);
 		var url = _tim.persons[name];
-		if(name.toLowerCase() == 'ted') {
+		if(name.toLowerCase() == 'tedq42.nl') {
 			playOnDasBoard(url);
 		}
 		_tim.play(url);
