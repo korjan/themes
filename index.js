@@ -63,9 +63,13 @@ app.get('/audio2/:filename', function(req, res, next) {
 		if( !events || !events.length ) {
 			return next();
 		}
-		res.header({'Content-Disposition': 'inline; filename="' + req.params.filename + '"'});
+		res.set("Content-Type", "audio/mpeg");
 		res.send(events[0].audio);
 	});
+});
+
+app.get('/embedmp3/audio2/:filename', function(req, res, next) {
+	res.render('embed-mp3', {mp3_audio: '/audio2/' + req.params.filename});
 });
 
 

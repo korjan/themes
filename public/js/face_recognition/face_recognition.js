@@ -149,7 +149,7 @@
 	}
 
 	function playOnDasBoard(url) {
-		var totalUrl = encodeURIComponent('https://' + window.location.host + url);
+		var totalUrl = encodeURIComponent('https://' + window.location.host + '/embedmp3' + url);
 		$.ajax('https://dasboards.azurewebsites.net/dashboard/set-url?url=' + totalUrl);
 	}
 
