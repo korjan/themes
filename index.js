@@ -49,7 +49,7 @@ app.get('/', function(req, res, next) {
 		console.log(events);
 		var eventObject = {};
 		events.forEach(function(event) {
-			eventObject[event.word] = '/audio2/' + event.filename;
+			eventObject[event.emailadres] = '/audio2/' + event.filename;
 		});
 		res.render('index', {events: eventObject});
 	})
@@ -123,7 +123,7 @@ app.post('/event', function(req, res) {
 		var filedata = fs.readFileSync(files['audio'].path);
 		var eventInstance = new Event();
 
-		eventInstance.word = fields['word'];
+		eventInstance.emailadres = fields['emailadres'].replace('@', '');
 		eventInstance.audio = filedata;
 		eventInstance.filename = files['audio'].name;
 		eventInstance.save(function(err, data) {

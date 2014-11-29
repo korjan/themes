@@ -69,5 +69,5 @@
       korjan: 'audio/korjan.mp3'
     }
   };
-  //tim.words = JSON.parse(document.getElementById('eventData').textContent);
+  tim.persons = JSON.parse(document.getElementById('eventData').textContent);
 }());
