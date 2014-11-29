@@ -73,9 +73,11 @@
       ajax: '/audio/feyenoord.mp3',
       voetbal: '/audio/feyenoord.mp3',
       vet: '/audio/vet.mp3',
+      'k**': '/audio/motherfucker.mp3',
+      'f***': '/audio/motherfucker.mp3',
       'f*****': '/audio/motherfucker.mp3',
       'm***********': '/audio/motherfucker.mp3',
-      'k**': '/audio/motherfucker.mp3',
+      maar: '/audio/maar.mp3',
     },
   };
 
