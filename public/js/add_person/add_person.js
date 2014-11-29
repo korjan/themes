@@ -12,7 +12,8 @@
 		faceId,
 		fileReader = new FileReader(),
 		formdata,
-		faceIds;
+		faceIds,
+		modal = $('.modal');
 
 		
 
@@ -35,12 +36,20 @@
 			addMultipleFaces($('.img-field')).then(function(faceData) {
 				addFaceToPerson(faceData).then(function() {
 					trainGroup();
-					alert('Foto toegevoegd!');
+					showModal();
 				});
 			});
 		});
 		return false;
 	});
+
+
+	function showModal() {
+		modal.modal({
+			show: true
+		});
+	}
+	window.showModal = showModal;
 
 
 	function addMultipleFaces($images) {

@@ -32,6 +32,16 @@ html
 					input.form-control.img-field(type='file', name='img5', accept='image/*', capture='capture')
 				div
 					button.btn.btn-primary(type='submit') Toevoegen
+		.modal.fade
+			.modal-dialog
+				.modal-content
+					.modal-header
+						h4.modal-title Persoon toegevoegd!
+					.modal-body
+						p Voeg nu een geluid toe voor deze persoon
+					.modal-footer
+						a.btn.btn-primary(href="/event") Naar geluiden!
+
 		script(src='//code.jquery.com/jquery-1.10.2.min.js')
 		script(src='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js')
 		script(src='//cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.1.6/js/ripples.min.js')
