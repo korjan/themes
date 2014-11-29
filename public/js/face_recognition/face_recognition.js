@@ -139,7 +139,7 @@
 		}
 		recordSession(name);
 		var url = _tim.persons[name];
-		if(name.toLowerCase() == 'tedq42.nl') {
+		if(name.toLowerCase() == 'markq42.nl') {
 			playOnDasBoard(url);
 		}
 		console.log('playing:', url);
