@@ -4,6 +4,8 @@ var S3_BUCKET = process.env.S3_BUCKET
 
 var app = require('express')();
 var server = require('http').Server(app);
+
+var io = require('socket.io').listen(server);
 var express = require('express');
 var Event = require('./mongo/model-event');
 var formidable = require('formidable');

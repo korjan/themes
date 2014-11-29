@@ -115,7 +115,8 @@
 			var candidate = result.face[0].candidate[0];
 
 			if (candidate.confidence > 20){
-				playSoundForPerson(candidate.person_name);
+				onPersonRecognized(candidate.person_name);
+
 			} else {
 				console.info('Tim is in doubt...');
 			}
@@ -125,7 +126,7 @@
 		api.request(method, data, cb);
 	}
 
-	function playSoundForPerson(name) {
+	function onPersonRecognized(name) {
 		var now = new Date();
 		if(_tim.face.playedSessions[name]) {
 
@@ -139,6 +140,8 @@
 		recordSession(name);
 		var url = _tim.persons[name];
 		_tim.play(url);
+		//if person == wiggler
+		wigglewiggle();
 	}
 
 	function recordSession( name ) {
@@ -152,7 +155,48 @@
 	$(document).ready(function() {
 		$.material.init();
 		startCamera();
+
+		window.wiggle = io('http://10.42.35.16:9001');
+		playSong();
 	});
 
+	function playSong(){
+		playNote(1);
+			setTimeout(function(){
+				playNote(2)
+			}, 200);
+			setTimeout(function(){
+				playNote(3)
+			}, 200);
+			setTimeout(function(){
+				playNote(4)
+			}, 200);
+			setTimeout(function(){
+				playNote(5)
+			}, 200);
+			setTimeout(function(){
+				playNote(6)
+			}, 200);
+			setTimeout(function(){
+				playNote(7)
+			}, 200);
+			setTimeout(function(){
+				playNote(8)
+			}, 200);
+			setTimeout(function(){
+				playNote(9)
+			}, 200);
+			setTimeout(function(){
+				playNote(10)
+			}, 200);
+			setTimeout(function(){
+				playNote(11)
+			}, 200);
+
+	}
+	function playNote(note, rest){
+		console.log('playing:', note);
+		window.wiggle.emit('url', '/xylofoon/' + note);
+	}
 
 })();
