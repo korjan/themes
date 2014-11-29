@@ -20,10 +20,10 @@
 		event.preventDefault();
 
 		formdata = {};
-		person_name = $('#person-name-field').val();
-		formdata['person_name'] = person_name.toLowerCase();
+		emailadres = $('#email-field').val();
+		formdata['person_name'] = emailadres.toLowerCase().replace('@', '');
 		formdata['group_name'] = groupName;
-		if( !person_name || !$('#img-field')[0].files.length ) {
+		if( !emailadres || !$('#img-field')[0].files.length ) {
 			// No files defined.
 			return;
 		}
