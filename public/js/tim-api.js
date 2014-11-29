@@ -65,6 +65,7 @@
     persons: {
       ted: '/audio/ted.mp3',
       guus: '/audio/guus.mp3',
+      korjan: 'audio/guus.mp3'
     }
   };
   //tim.words = JSON.parse(document.getElementById('eventData').textContent);
