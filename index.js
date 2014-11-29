@@ -1,6 +1,5 @@
 var app = require('express')();
 var server = require('http').Server(app);
-var io = require('socket.io')(server);
 var express = require('express');
 var Event = require('./mongo/model-event');
 var formidable = require('formidable');
@@ -92,12 +91,4 @@ app.post('/event', function(req, res) {
 		res.render('add-event', {done: true});
 	});
 
-});
-
-
-io.on('connection', function (socket) {
-	socket.emit('news', { hello: 'world' });
-	socket.on('my other event', function (data) {
-		console.log(data);
-	});
 });
