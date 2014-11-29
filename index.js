@@ -120,17 +120,25 @@ app.post('/event', function(req, res) {
 			console.log('no file received for adding event', fields['word']);
 			return res.redirect('/event');
 		}
-		var filedata = fs.readFileSync(files['audio'].path);
-		var eventInstance = new Event();
+		var email = fields['emailadres'].replace('@', '');
+		Event.find({emailadres: email}, function(err, events) {
+			if(events.length) {
+				// Event already exists, do not add!
+				return res.redirect('/event');
+			}
 
-		eventInstance.emailadres = fields['emailadres'].replace('@', '');
-		eventInstance.audio = filedata;
-		eventInstance.filename = files['audio'].name;
-		eventInstance.save(function(err, data) {
-			console.log(err);
+			var filedata = fs.readFileSync(files['audio'].path);
+			var eventInstance = new Event();
+
+			eventInstance.emailadres = email;
+			eventInstance.audio = filedata;
+			eventInstance.filename = files['audio'].name;
+			eventInstance.save(function(err, data) {
+				console.log(err);
+			});
+
+			res.redirect('/event?done=true');
 		});
-
-		res.redirect('/event?done=true');
 	});
 
 });
