@@ -13,7 +13,8 @@
 		fileReader = new FileReader(),
 		formdata,
 		faceIds,
-		modal = $('.modal');
+		modal = $('.modal'),
+		$submitButton = $('button.submit');
 
 		
 
@@ -31,6 +32,7 @@
 			return;
 		}
 		saveEmailadres(emailadres);
+		$submitButton.button('loading');
 
 		// Create all the things!
 		createPerson().then(function() {
@@ -38,6 +40,7 @@
 				addFaceToPerson(faceData).then(function() {
 					showModal();
 					trainGroup();
+					$submitButton.button('reset');
 				});
 			});
 		});
