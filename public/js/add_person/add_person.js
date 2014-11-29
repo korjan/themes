@@ -32,9 +32,9 @@
 			formdata['img'] = image;
 
 			// Create all the things!
-			createPerson().done(function() {
-				createFace(formdata).done(function(faceData) {
-					addFaceToPerson(faceData).done(function() {
+			createPerson().then(function() {
+				createFace(formdata).then(function(faceData) {
+					addFaceToPerson(faceData).then(function() {
 						trainGroup();
 						alert('Foto toegevoegd!');
 					});
@@ -44,6 +44,20 @@
 		});
 		return false;
 	});
+
+
+	/*function doImages($images) {
+		var images = [];
+
+		$images.each(function() {
+			if( !$(this)[0].files.length ) {
+				// Image is empty.
+				return;
+			}
+			formdata['img'] = image;
+
+		});
+	}*/
 
 
 
@@ -87,16 +101,16 @@
 
 
 	function performRequest(requestName, data, mayFail) {
-		var dfd = new jQuery.Deferred();
-		faceApi.request(requestName, data, function( err, data ) {
-			if( err && !mayFail ) {
-				dfd.reject( err );
-				return;
-			}
+		return new Promise(function(resolve, reject) {
+			faceApi.request(requestName, data, function( err, data ) {
+				if( err && !mayFail ) {
+					reject( err );
+					return;
+				}
 
-			dfd.resolve( data );
+				resolve( data );
+			});
 		});
-		return dfd.promise();
 	}
 
 
