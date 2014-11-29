@@ -29,34 +29,20 @@ app.set('view engine', 'jade');
 
 server.listen(8080);
 
-app.get('/', function (req, res, next) {
-	res.redirect('/event');
-});
-
 app.get('/add-person', function (req, res) {
 	res.render('add-person');
 });
 
-app.get('/event', function(req, res, next) {
+app.get('/', function(req, res, next) {
 
 	Event.find(function (err, events) {
 		if (err) return next(err);
 		console.log(events);
-		res.format({
-			'text/html': function() {
-				var eventObject = {};
-				events.forEach(function(event) {
-					eventObject[event.name] = '/audio2/' + event.filename;
-				});
-				res.render('index', {events: eventObject});
-			},
-			'application/json': function() {
-				res.send(events);
-			},
-			'default': function() {
-				res.sendStatus(406);
-			}
+		var eventObject = {};
+		events.forEach(function(event) {
+			eventObject[event.word] = '/audio2/' + event.filename;
 		});
+		res.render('index', {events: eventObject});
 	})
 });
 
@@ -70,8 +56,8 @@ app.get('/audio2/:filename', function(req, res, next) {
 	});
 });
 
-app.get('/event/add', function(req, res) {
-	res.render('add-event');
+app.get('/event', function(req, res) {
+	res.render('add-event', {done: req.query.done});
 });
 
 app.post('/event', function(req, res) {
@@ -81,14 +67,14 @@ app.post('/event', function(req, res) {
 		var filedata = fs.readFileSync(files['audio'].path);
 		var eventInstance = new Event();
 
-		eventInstance.name = fields['word'];
+		eventInstance.word = fields['word'];
 		eventInstance.audio = filedata;
 		eventInstance.filename = files['audio'].name;
 		eventInstance.save(function(err, data) {
 			console.log(err);
 		});
 
-		res.render('add-event', {done: true});
+		res.redirect('/event?done=true');
 	});
 
 });
