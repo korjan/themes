@@ -61,5 +61,4 @@
     }
   };
   tim.words = JSON.parse(document.getElementById('eventData').textContent);
-  console.log(events);
 }());
