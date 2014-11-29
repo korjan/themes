@@ -72,6 +72,7 @@
       hallo: '/audio/hallo.mp3',
       ajax: '/audio/feyenoord.mp3',
       voetbal: '/audio/feyenoord.mp3',
+      vet: '/audio/vet.mp3',
     },
   };
 
