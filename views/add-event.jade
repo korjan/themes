@@ -14,14 +14,19 @@ html
 					h2 Event is toegevoegd!!!
 			h1 Add event!
 			form(action='/event', method="POST", enctype="multipart/form-data")
-				label
-					span Woord:
-					input(type='text', name='word')
-				label
-					span Audio:
-					input(type='file', name='audio')
+				.form-group
+					label Woord:
+					input.form-control(type='text', name='word', placeholder="Bijvoorbeeld: 'paard'")
+				.form-group
+					label Audio:
+					input.form-control(type='file', name='audio')
 				div
-					button(type='submit') Toevoegen
+					button.btn.btn-primary(type='submit') Toevoegen
 		script(src='//code.jquery.com/jquery-1.10.2.min.js')
+		script(src='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js')
+		script(src='//cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.1.6/js/ripples.min.js')
+		script(src='//cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.1.6/js/material.min.js')
+		script
+			| $.material.ripples();
 		script(type='text/javascript', src='js/facepp-sdk.min.js')
 		script(src='js/add_person/add_person.js')
