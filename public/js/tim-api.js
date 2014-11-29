@@ -51,6 +51,7 @@
       ballonnen: '/audio/ballon.mp3',
       ballon: '/audio/ballon.mp3',
       moeder: '/audio/moeder.mp3',
+      mondriaan: '/audio/moeder.mp3',
       iphone: '/audio/connected.mp3',
       blackberry: '/audio/connected.mp3',
       bootcamp: '/audio/connected.mp3',
