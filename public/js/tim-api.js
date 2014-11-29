@@ -73,11 +73,7 @@
       ajax: '/audio/feyenoord.mp3',
       voetbal: '/audio/feyenoord.mp3',
     },
-    persons: {
-      ted: '/audio/ted.mp3',
-      guus: '/audio/guus.mp3',
-      korjan: 'audio/korjan.mp3'
-    }
   };
-  tim.persons = JSON.parse(document.getElementById('eventData').textContent);
+
+  window.tim.persons = JSON.parse(document.getElementById('eventData').textContent);
 }());
