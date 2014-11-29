@@ -1,3 +1,7 @@
+var AWS_ACCESS_KEY = process.env.AWS_ACCESS_KEY;
+var AWS_SECRET_KEY = process.env.AWS_SECRET_KEY;
+var S3_BUCKET = process.env.S3_BUCKET
+
 var app = require('express')();
 var server = require('http').Server(app);
 var express = require('express');
@@ -5,7 +9,11 @@ var Event = require('./mongo/model-event');
 var formidable = require('formidable');
 var fs = require('fs');
 var morgan = require('morgan');
+var aws = require('aws-sdk');
+var bodyParser = require('body-parser');
 
+app.use(bodyParser.urlencoded({ extended: false })); // parse application/x-www-form-urlencoded
+app.use(bodyParser.json()); // parse application/json
 
 var _ = require('underscore');
 
@@ -55,6 +63,49 @@ app.get('/audio2/:filename', function(req, res, next) {
 		}
 		res.send(events[0].audio);
 	});
+});
+
+
+app.get('/sign_s3', function(req, res){
+	console.log('keys:', AWS_ACCESS_KEY, AWS_SECRET_KEY);
+    aws.config.update({accessKeyId: AWS_ACCESS_KEY, secretAccessKey: AWS_SECRET_KEY});
+    var s3 = new aws.S3();
+    var s3_params = {
+        Bucket: S3_BUCKET,
+        Key: req.query.s3_object_name,
+        Expires: 60,
+        ContentType: req.query.s3_object_type,
+        ACL: 'public-read'
+    };
+
+    console.log(s3_params);
+    s3.getSignedUrl('putObject', s3_params, function(err, data){
+        if(err){
+            console.log(err);
+        }
+        else{
+            var return_data = {
+                signed_request: data,
+                url: 'https://'+S3_BUCKET+'.s3.amazonaws.com/'+req.query.s3_object_name
+            };
+            res.write(JSON.stringify(return_data));
+            res.end();
+        }
+    });
+});
+
+// app.get('/s3test', function(req,res){
+// 	res.redirect('/s3test.html');
+// });
+
+app.post('/submit_form', function(req, res){
+	console.log('req:', req);
+    username = req.body.username;
+    full_name = req.body.full_name;
+    avatar_url = req.body.avatar_url;
+    // update_account(username, full_name, avatar_url); // TODO: create this function
+    console.log(username, full_name, avatar_url);
+    // TODO: Return something useful or redirect
 });
 
 app.get('/event', function(req, res) {

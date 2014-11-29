@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/korjan/themes",
   "dependencies": {
+    "aws-sdk": "*",
+    "body-parser": "^1.9.3",
     "express": "^4.10.4",
     "formidable": "^1.0.15",
     "jade": "^1.8.0",
