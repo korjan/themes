@@ -23,6 +23,11 @@
 		person_name = $('#person-name-field').val();
 		formdata['person_name'] = person_name.toLowerCase();
 		formdata['group_name'] = groupName;
+		if( !person_name || !$('#img-field')[0].files.length ) {
+			// No files defined.
+			return;
+		}
+
 		getBlobFromFile($('#img-field')[0].files[0], function( image ) {
 			formdata['img'] = image;
 
