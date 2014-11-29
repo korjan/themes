@@ -138,7 +138,15 @@
 		}
 		recordSession(name);
 		var url = _tim.persons[name];
+		if(name.toLowerCase() == 'ted') {
+			playOnDasBoard(url);
+		}
 		_tim.play(url);
+	}
+
+	function playOnDasBoard(url) {
+		var totalUrl = encodeURIComponent('https://' + window.location.host + url);
+		$.ajax('https://dasboards.azurewebsites.net/dashboard/set-url?url=' + totalUrl);
 	}
 
 	function recordSession( name ) {
