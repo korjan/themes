@@ -64,7 +64,6 @@
 		var promises = [];
 
 		$images.each(function() {
-			console.log('image', $(this)[0].files);
 			if( !$(this)[0].files.length ) {
 				// Image is empty.
 				return;
@@ -75,16 +74,20 @@
 			promises.push( new Promise(function(resolve, reject) {
 
 				createFace(formdata).then(function(facedata) {
-					if(facedata) {
+					if(facedata && facedata.face.length) {
 						faceIds.push(facedata.face[0]['face_id']);
+					} else {
+						alert('Geen gezicht gedetecteerd, probeer een duidelijke foto.');
+						$submitButton.button('reset');
 					}
 					resolve();
+				}).catch(function() {
+					alert('Kon foto niet uploaden, misschien te groot?');
+					$submitButton.button('reset');
 				});
 			}));
 
 		});
-
-		console.log(promises);
 
 		return Promise.all( promises );
 	}
