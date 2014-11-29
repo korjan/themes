@@ -9,10 +9,13 @@ html
 		.navbar.navbar-default.navbar-material-indigo
 			.navbar-header
 				a.navbar-brand(href="/") TIM.io
+
 		.container
-			video(autoplay='autoplay', style="display:none;")
-			img#face(src='', style="display:none;")
-			canvas(style="display: none;")
+		video(autoplay='autoplay', style="display:none;")
+		center
+			video(src="http://static.q42.nl/video/employees/timl.webm" autoplay loop poster="http://static.q42.nl/images/employees/timl.jpg")
+		img#face(src='', style="display:none;")
+		canvas(style="display: none;")
 		script#eventData(type="application/json") !{JSON.stringify(events)}
 		script(src="/js/tim-api.js")
 		script(src='//code.jquery.com/jquery-1.10.2.min.js')

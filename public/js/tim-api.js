@@ -60,6 +60,7 @@
       muziekje: '/audio/muziek.mp3',
       trein: '/audio/trein.mp3',
       film: '/audio/film.mp3',
+      nutteloos: '/audio/rondjes.mp3',
     },
     persons: {
       ted: '/audio/ted.mp3',
