@@ -67,8 +67,10 @@
       ongezond: '/audio/bacon.mp3',
       bier: '/audio/bier.mp3',
       dag: '/audio/dag.mp3',
-      hallo: '/audio/dag.mp3',
       doei: '/audio/dag.mp3',
+      hallo: '/audio/hallo.mp3',
+      ajax: '/audio/feyenoord.mp3',
+      voetbal: '/audio/feyenoord.mp3',
     },
     persons: {
       ted: '/audio/ted.mp3',
