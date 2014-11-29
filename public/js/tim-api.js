@@ -78,8 +78,7 @@
       'k**': '/audio/motherfucker.mp3',
       'f***': '/audio/motherfucker.mp3',
       'f*****': '/audio/motherfucker.mp3',
-      'm***********': '/audio/motherfucker.mp3',
-      maar: '/audio/maar.mp3',
+      'm***********': '/audio/motherfucker.mp3'
     },
   };
 
