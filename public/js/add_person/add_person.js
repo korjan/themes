@@ -30,18 +30,23 @@
 			// No files defined.
 			return;
 		}
+		saveEmailadres(emailadres);
 
 		// Create all the things!
 		createPerson().then(function() {
 			addMultipleFaces($('.img-field')).then(function(faceData) {
 				addFaceToPerson(faceData).then(function() {
-					trainGroup();
 					showModal();
+					trainGroup();
 				});
 			});
 		});
 		return false;
 	});
+
+	function saveEmailadres(email) {
+		localStorage.setItem('emailadres', email);
+	}
 
 
 	function showModal() {
