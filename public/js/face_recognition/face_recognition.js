@@ -91,6 +91,7 @@
 
 
 	function detectFace(){
+		console.info('Tim thinks he sees a face. He is attempting to recognize it.');
 
 		var dataURL = canvas.toDataURL('image/jpeg', 0.5);
 		var blob = dataURItoBlob(dataURL);
@@ -106,6 +107,7 @@
 		var cb = function(error, result) {
 			if(!result.face[0]) {
 				// No match found!
+				console.info('Tim was wrong; there is no face.');
 				snapshot();
 				return;
 			}
@@ -114,9 +116,12 @@
 
 			if (candidate.confidence > 20){
 				playSoundForPerson(candidate.person_name);
+			} else {
+				console.info('Tim is in doubt...');
 			}
 			snapshot();
-		}
+		};
+
 		api.request(method, data, cb);
 	}
 
