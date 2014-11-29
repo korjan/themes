@@ -9,14 +9,27 @@ html
 			.navbar-header
 				a.navbar-brand(href="/") TIM.io
 		.container
-			h1 TIM.io Test
+			h1 Persoon configureren
+			p Voeg meerdere foto's van jezelf toe, zorg ervoor dat de foto's onder verschillende hoeken en belichting zijn.
 			form#add-person-form(action='#')
 				.form-group
-					label Naam:
-					input.form-control#person-name-field(type='text', name='person_name', placeholder="Bijvoorbeeld 'Ted'")
+					label Emailadres:
+					input.form-control#email-field(type='email', name='emailadres', placeholder="Bijvoorbeeld 'korjan@q42.nl'")
 				.form-group
-					label Foto:
-					input.form-control#img-field(type='file', name='img', accept='image/*', capture='capture')
+					label Foto 1:
+					input.form-control.img-field(type='file', name='img1', accept='image/*', capture='capture')
+				.form-group
+					label Foto 2:
+					input.form-control.img-field(type='file', name='img2', accept='image/*', capture='capture')
+				.form-group
+					label Foto 3:
+					input.form-control.img-field(type='file', name='img3', accept='image/*', capture='capture')
+				.form-group
+					label Foto 4:
+					input.form-control.img-field(type='file', name='img4', accept='image/*', capture='capture')
+				.form-group
+					label Foto 5:
+					input.form-control.img-field(type='file', name='img5', accept='image/*', capture='capture')
 				div
 					button.btn.btn-primary(type='submit') Toevoegen
 		script(src='//code.jquery.com/jquery-1.10.2.min.js')

@@ -11,7 +11,8 @@
 		person_name,
 		faceId,
 		fileReader = new FileReader(),
-		formdata;
+		formdata,
+		faceIds;
 
 		
 
@@ -20,30 +21,56 @@
 		event.preventDefault();
 
 		formdata = {};
-		person_name = $('#person-name-field').val();
-		formdata['person_name'] = person_name.toLowerCase();
+		faceIds = [];
+		emailadres = $('#email-field').val();
+		formdata['person_name'] = emailadres.toLowerCase().replace('@', '');
 		formdata['group_name'] = groupName;
-		if( !person_name || !$('#img-field')[0].files.length ) {
+		if( !emailadres || !$('.img-field:eq(0)')[0].files.length ) {
 			// No files defined.
 			return;
 		}
 
-		getBlobFromFile($('#img-field')[0].files[0], function( image ) {
-			formdata['img'] = image;
-
-			// Create all the things!
-			createPerson().done(function() {
-				createFace(formdata).done(function(faceData) {
-					addFaceToPerson(faceData).done(function() {
-						trainGroup();
-						alert('Foto toegevoegd!');
-					});
+		// Create all the things!
+		createPerson().then(function() {
+			addMultipleFaces($('.img-field')).then(function(faceData) {
+				addFaceToPerson(faceData).then(function() {
+					trainGroup();
+					alert('Foto toegevoegd!');
 				});
 			});
-
 		});
 		return false;
 	});
+
+
+	function addMultipleFaces($images) {
+		var promises = [];
+
+		$images.each(function() {
+			console.log('image', $(this)[0].files);
+			if( !$(this)[0].files.length ) {
+				// Image is empty.
+				return;
+			}
+			formdata['img'] = $(this)[0].files[0];
+
+
+			promises.push( new Promise(function(resolve, reject) {
+
+				createFace(formdata).then(function(facedata) {
+					if(facedata) {
+						faceIds.push(facedata.face[0]['face_id']);
+					}
+					resolve();
+				});
+			}));
+
+		});
+
+		console.log(promises);
+
+		return Promise.all( promises );
+	}
 
 
 
@@ -71,8 +98,9 @@
 		return performRequest(createPersonCall, formdata, true);
 	}
 
-	function addFaceToPerson(faceData) {
-		formdata['face_id'] = faceData.face[0]['face_id'];
+	function addFaceToPerson() {
+		formdata['face_id'] = faceIds.join(',');
+		console.log('faceids:', faceIds.join(','));
 		return performRequest(addImageToPersonCall, formdata);
 	}
 
@@ -87,16 +115,16 @@
 
 
 	function performRequest(requestName, data, mayFail) {
-		var dfd = new jQuery.Deferred();
-		faceApi.request(requestName, data, function( err, data ) {
-			if( err && !mayFail ) {
-				dfd.reject( err );
-				return;
-			}
+		return new Promise(function(resolve, reject) {
+			faceApi.request(requestName, data, function( err, data ) {
+				if( err && !mayFail ) {
+					reject( err );
+					return;
+				}
 
-			dfd.resolve( data );
+				resolve( data );
+			});
 		});
-		return dfd.promise();
 	}
 
 
