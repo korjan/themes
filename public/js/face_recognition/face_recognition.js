@@ -166,7 +166,7 @@
 		_tim.play(url);
 	}
 
-	setInterval(playHallo, 10*60*1000); // 10 minutes.
+	setInterval(playHallo, 30*60*1000); // 30 minutes.
 	setTimeout(playHallo, Math.floor(Math.random() * 100 * 1000));
 
 
