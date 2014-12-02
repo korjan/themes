@@ -76,6 +76,7 @@
       ajax: '/audio/feyenoord.mp3',
       voetbal: '/audio/feyenoord.mp3',
       vet: '/audio/vet.mp3',
+      punk: '/audio/punk.wav',
       'k**': '/audio/motherfucker.mp3',
       'f***': '/audio/motherfucker.mp3',
       'f*****': '/audio/motherfucker.mp3',
