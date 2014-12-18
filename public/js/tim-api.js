@@ -92,7 +92,10 @@
       vuurwerk: '/audio/vuurbal.mp3',
       oudjaarsavond: '/audio/vuurbal.mp3',
       kapot: '/audio/vuurbal.mp3',
-      android: '/audio/android.mp3'
+      android: '/audio/android.mp3',
+      goedemorgen: '/audio/goedemorgen.mp3',
+      goeiemorgen: '/audio/goedemorgen.mp3',
+      jos: '/audio/goedemorgen.mp3'
     },
   };
 
