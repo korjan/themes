@@ -80,7 +80,12 @@
       'k**': '/audio/motherfucker.mp3',
       'f***': '/audio/motherfucker.mp3',
       'f*****': '/audio/motherfucker.mp3',
-      'm***********': '/audio/motherfucker.mp3'
+      'm***********': '/audio/motherfucker.mp3',
+      scheet: '/audio/scheet.mp3',
+      poep: '/audio/scheet.mp3',
+      poepen: '/audio/scheet.mp3',
+      wc: '/audio/scheet.mp3',
+      toilet: '/audio/scheet.mp3'
     },
   };
 
