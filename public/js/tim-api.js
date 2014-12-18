@@ -91,7 +91,8 @@
       vuurbal: '/audio/vuurbal.mp3',
       vuurwerk: '/audio/vuurbal.mp3',
       oudjaarsavond: '/audio/vuurbal.mp3',
-      kapot: '/audio/vuurbal.mp3'
+      kapot: '/audio/vuurbal.mp3',
+      android: '/audio/android.mp3'
     },
   };
 
