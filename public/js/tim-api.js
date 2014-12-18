@@ -86,7 +86,12 @@
       poepen: '/audio/scheet.mp3',
       wc: '/audio/scheet.mp3',
       toilet: '/audio/scheet.mp3',
-      snackbar: '/audio/snackbar.mp3'
+      snackbar: '/audio/snackbar.mp3',
+      cappuccino: '/audio/cappuccino.mp3',
+      vuurbal: '/audio/vuurbal.mp3',
+      vuurwerk: '/audio/vuurbal.mp3',
+      oudjaarsavond: '/audio/vuurbal.mp3',
+      kapot: '/audio/vuurbal.mp3'
     },
   };
 
