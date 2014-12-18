@@ -85,7 +85,8 @@
       poep: '/audio/scheet.mp3',
       poepen: '/audio/scheet.mp3',
       wc: '/audio/scheet.mp3',
-      toilet: '/audio/scheet.mp3'
+      toilet: '/audio/scheet.mp3',
+      snackbar: '/audio/snackbar.mp3'
     },
   };
 
